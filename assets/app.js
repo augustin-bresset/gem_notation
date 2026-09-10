@@ -14,7 +14,8 @@
   // ── Searchable combo ───────────────────────────────────────────────
   // A text input with a ranked dropdown (GemSearch): type a name or a
   // code, pick with the mouse or Up/Down + Enter; empty input clears.
-  function combo(inputId, rows, detailOf, onChange) {
+  function combo(inputId, rows, options, onChange) {
+    const { detailOf, groupsOf } = options || {};
     const input = $(inputId);
     const list = input.parentElement.querySelector('.combo-list');
     let current = null;
@@ -26,22 +27,43 @@
     };
     const close = () => { list.hidden = true; };
 
+    const itemHtml = (row, index) =>
+      `<div class="combo-item${row === current ? ' current' : ''}" data-i="${index}">`
+      + `<span class="mono strong">${row.code}</span> ${row.name}`
+      + (detailOf && detailOf(row)
+          ? ` <span class="muted">${detailOf(row)}</span>` : '')
+      + '</div>';
+
     function render(query) {
-      visible = S.search(rows, query).slice(0, 50);
-      highlighted = 0;
-      list.innerHTML = visible.map((row, index) =>
-        `<div class="combo-item${index === 0 ? ' hl' : ''}" data-i="${index}">`
-        + `<span class="mono strong">${row.code}</span> ${row.name}`
-        + (detailOf && detailOf(row)
-            ? ` <span class="muted">${detailOf(row)}</span>` : '')
-        + '</div>').join('');
+      const q = (query || '').trim();
+      if (!q && groupsOf) {
+        // the full menu, grouped, exactly like a select would scroll
+        visible = [];
+        let html = '';
+        for (const [label, groupRows] of groupsOf()) {
+          if (!groupRows.length) continue;
+          html += `<div class="combo-group">${label}</div>`;
+          for (const row of groupRows) {
+            html += itemHtml(row, visible.length);
+            visible.push(row);
+          }
+        }
+        list.innerHTML = html;
+      } else {
+        visible = q ? S.search(rows, q) : rows.slice();
+        list.innerHTML = visible.map(itemHtml).join('');
+      }
       list.hidden = visible.length === 0;
+      const currentIndex = current ? visible.indexOf(current) : -1;
+      highlight(currentIndex >= 0 ? currentIndex : 0, currentIndex >= 0);
     }
-    function highlight(index) {
+    function highlight(index, scroll) {
       highlighted = Math.max(0, Math.min(index, visible.length - 1));
       list.querySelectorAll('.combo-item').forEach((el, i) => {
         el.classList.toggle('hl', i === highlighted);
-        if (i === highlighted) el.scrollIntoView({ block: 'nearest' });
+        if (scroll && i === highlighted) {
+          el.scrollIntoView({ block: 'nearest' });
+        }
       });
     }
     function pick(row) {
@@ -52,11 +74,19 @@
     }
 
     input.addEventListener('focus', () => { input.select(); render(''); });
+    input.addEventListener('click', () => {
+      if (list.hidden) render('');
+    });
     input.addEventListener('input', () => render(input.value));
     input.addEventListener('keydown', (ev) => {
-      if (ev.key === 'ArrowDown') { highlight(highlighted + 1); ev.preventDefault(); }
-      else if (ev.key === 'ArrowUp') { highlight(highlighted - 1); ev.preventDefault(); }
-      else if (ev.key === 'Enter') {
+      if (ev.key === 'ArrowDown') {
+        if (list.hidden) render('');
+        else highlight(highlighted + 1, true);
+        ev.preventDefault();
+      } else if (ev.key === 'ArrowUp') {
+        highlight(highlighted - 1, true);
+        ev.preventDefault();
+      } else if (ev.key === 'Enter') {
         if (!input.value.trim()) pick(null);
         else if (visible.length) pick(visible[highlighted]);
         ev.preventDefault();
@@ -116,9 +146,12 @@
     notes.textContent = lines.join('\n');
   }
 
-  combo('stone', D.stones,
-    (s) => categories[s.category] ? categories[s.category].name : '',
-    (row) => { selection.stone = row; refreshCompose(); });
+  combo('stone', D.stones, {
+    detailOf: (s) => categories[s.category] ? categories[s.category].name : '',
+    groupsOf: () => D.categories
+      .map((c) => [c.name, D.stones.filter((s) => s.category === c.code)])
+      .concat([['Other', D.stones.filter((s) => !categories[s.category])]]),
+  }, (row) => { selection.stone = row; refreshCompose(); });
   combo('grade', D.grades, null,
     (row) => { selection.grade = row; refreshCompose(); });
   combo('hue', D.hues, null,
@@ -139,14 +172,18 @@
       row.innerHTML = `
         <span class="mono">${line.token}</span>
         <label>weight <input type="number" step="0.01" min="0" value="${line.weight}"></label>
-        <label><input type="radio" name="center" ${line.isCenter ? 'checked' : ''}> center</label>
+        <label><input type="checkbox" class="center-box" ${line.isCenter ? 'checked' : ''}> center</label>
         <button type="button" title="Remove">×</button>`;
       row.querySelector('input[type=number]').addEventListener('change', (ev) => {
         line.weight = parseFloat(ev.target.value) || 0;
         refreshProduct();
       });
-      row.querySelector('input[type=radio]').addEventListener('change', () => {
-        product.forEach((l, i) => { l.isCenter = i === index; });
+      row.querySelector('.center-box').addEventListener('change', (ev) => {
+        if (ev.target.checked) {
+          product.forEach((l, i) => { l.isCenter = i === index; });
+        } else {
+          line.isCenter = false;
+        }
         refreshProduct();
       });
       row.querySelector('button').addEventListener('click', () => {

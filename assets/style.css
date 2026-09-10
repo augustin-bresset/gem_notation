@@ -127,3 +127,13 @@ footer { text-align: center; padding: 18px; border-top: 1px solid var(--line); }
 .combo-item .mono { display: inline-block; min-width: 34px; }
 .combo-item.hl, .combo-item:hover { background: var(--paper); }
 .combo-item .muted { font-size: 0.8rem; }
+
+/* Combo as a dropdown menu */
+.combo::after { content: ''; position: absolute; right: 11px; top: 50%;
+  border: 5px solid transparent; border-top-color: var(--muted);
+  transform: translateY(-2px); pointer-events: none; }
+.combo input { padding-right: 28px; }
+.combo-group { position: sticky; top: 0; padding: 5px 10px 3px;
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--muted); background: var(--paper); }
+.combo-item.current { font-weight: 700; }

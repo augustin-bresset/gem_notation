@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gemstone Notation — Design Study</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .bars { margin: 10px 0 4px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+  .bar-label { width: 240px; font-size: 0.85rem; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; background: var(--paper); border-radius: 4px; }
+  .bar { height: 20px; border-radius: 4px; background: #9a9a96; color: #fff;
+         font-size: 0.78rem; line-height: 20px; padding-left: 8px;
+         white-space: nowrap; min-width: 34px; }
+  .bar.win { background: var(--accent); }
+  .bar.bad { background: var(--bad); }
+  .bar-note { font-size: 0.78rem; color: var(--muted); width: 170px; flex-shrink: 0; }
+  .verdict { border-left: 4px solid var(--accent); padding: 8px 14px;
+             background: var(--paper); margin: 14px 0; }
+  .study-table td, .study-table th { white-space: normal; }
+  h3 { margin: 22px 0 8px; font-size: 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Design Study</h1>
+  <p class="tagline">How the notation was chosen — the goals, the candidate
+    grammars, the measurements on real production data, and the trade-offs.
+    <a href="index.html" style="color:#fff; text-decoration:underline;">← back to the workspace</a></p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Goals and constraints</h2>
+    <ul>
+      <li><strong>Generated automatically</strong> from a product's real stone
+        composition;</li>
+      <li><strong>As short as possible;</strong></li>
+      <li><strong>Readable;</strong></li>
+      <li><strong>Detailed only when necessary</strong> — the common case
+        should not pay for the rare one;</li>
+      <li>Constraint: <strong>avoid collisions</strong> — a <em>collision</em>
+        is two different entities sharing the same code.</li>
+    </ul>
+    <p class="muted">Every measurement below comes from the real production
+      history: <strong>247,898</strong> stone-composition lines,
+      <strong>45,895</strong> products with a composition, and dictionaries of
+      112 stone types, 115 shades and 178 shapes.</p>
+  </section>
+
+  <section class="card">
+    <h2>The candidates</h2>
+    <table class="study-table">
+      <tr><th>Candidate</th><th>Idea</th><th>Example token</th></tr>
+      <tr><td class="mono strong">A — type only</td>
+          <td>the stone type code alone; shade and shape disappear</td>
+          <td class="mono">SA</td></tr>
+      <tr><td class="mono strong">B — TYPE.SHADE</td>
+          <td>the shade is written only when it differs from the type's default</td>
+          <td class="mono">SA.LC</td></tr>
+      <tr><td class="mono strong">C — TYPE.SHADE.SHAPE</td>
+          <td>everything, with defaults and “..” placeholders</td>
+          <td class="mono">SA.LC.PS</td></tr>
+      <tr><td class="mono strong">D — fixed-width recode</td>
+          <td>2-char codes for every axis, defaults omitted, separator-free
+            parsing by character classes</td>
+          <td class="mono">SA1CPS</td></tr>
+      <tr><td class="mono strong">Emasur proposal</td>
+          <td>flat colour+species identities with a dot (201 stones:
+            <span class="mono">AG</span>, <span class="mono">W.AG</span>,
+            <span class="mono">BK.AG</span>…), separate lists of 13 shapes
+            (<span class="mono">CUSH</span>, <span class="mono">TRIAN</span>)
+            and 13 lapidary cuts (<span class="mono">FACE</span>,
+            <span class="mono">EMCU</span>)</td>
+          <td class="mono">BK.AG</td></tr>
+      <tr><td class="mono strong">Retained — PP[G][BB][EE]</td>
+          <td>stone (2 letters) + grade (1 digit) + hue (digit+letter) +
+            shape (2 letters), each block omitted on the stone's default</td>
+          <td class="mono">SA21CPS</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Measurement 1 — how long are the codes?</h2>
+    <p class="muted small">Average stone-token length, weighted by real usage
+      (defaults omitted where the grammar supports them). The Emasur figure is
+      its stone identity alone — it has no grade axis and no rule for writing
+      the shape into a code.</p>
+    <div class="bars">
+      <div class="bar-row"><span class="bar-label">A — type only</span>
+        <div class="bar-track"><div class="bar bad" style="width:40%">2.85</div></div>
+        <span class="bar-note">loses shade &amp; shape</span></div>
+      <div class="bar-row"><span class="bar-label">Retained PP[G][BB][EE]</span>
+        <div class="bar-track"><div class="bar win" style="width:45%">3.20 · max 7</div></div>
+        <span class="bar-note">loses nothing</span></div>
+      <div class="bar-row"><span class="bar-label">D — all axes 2-char</span>
+        <div class="bar-track"><div class="bar" style="width:45%">3.21 · max 6</div></div>
+        <span class="bar-note">loses nothing</span></div>
+      <div class="bar-row"><span class="bar-label">2-char grade variant</span>
+        <div class="bar-track"><div class="bar" style="width:49%">3.45 · max 8</div></div>
+        <span class="bar-note">loses nothing</span></div>
+      <div class="bar-row"><span class="bar-label">B — TYPE.SHADE</span>
+        <div class="bar-track"><div class="bar" style="width:57%">4.03 · max 9</div></div>
+        <span class="bar-note">loses shape</span></div>
+      <div class="bar-row"><span class="bar-label">C — full, dotted</span>
+        <div class="bar-track"><div class="bar" style="width:71%">5.04 · max 15</div></div>
+        <span class="bar-note">loses nothing</span></div>
+      <div class="bar-row"><span class="bar-label">Emasur (stone only)</span>
+        <div class="bar-track"><div class="bar" style="width:76%">5.39 · max 10</div></div>
+        <span class="bar-note">no grade, no shape rule</span></div>
+    </div>
+    <p class="muted small">A shorter bar than the retained one exists (a
+      variant folding every hue into the identity reached 2.68) — it was set
+      aside because it grows the identity dictionary from 112 to 277 entries
+      and each new colour becomes a new identity to govern.</p>
+  </section>
+
+  <section class="card">
+    <h2>Measurement 2 — do products collide?</h2>
+    <p class="muted small">Products of the same model and metal whose colour
+      code would be identical while their stones differ — measured over the
+      45,895 real products.</p>
+    <div class="bars">
+      <div class="bar-row"><span class="bar-label">A — type only</span>
+        <div class="bar-track"><div class="bar bad" style="width:75%">30.3&thinsp;% (13,907 products)</div></div></div>
+      <div class="bar-row"><span class="bar-label">B — TYPE.SHADE</span>
+        <div class="bar-track"><div class="bar" style="width:12%">4.0&thinsp;%</div></div></div>
+      <div class="bar-row"><span class="bar-label">Retained (full triplet)</span>
+        <div class="bar-track"><div class="bar win" style="width:3%">0</div></div></div>
+    </div>
+    <p><strong>Residual, whatever the grammar:</strong> 12.3&thinsp;% of
+      products (5,661) are <em>true twins</em> — identical stones down to
+      shade and shape, differing only by count, size or layout, which no
+      colour code encodes. An optional bracket suffix
+      (<span class="mono">[…]</span>) is reserved for them; product-code
+      uniqueness is enforced by the software either way.</p>
+  </section>
+
+  <section class="card">
+    <h2>The Emasur proposal, in detail</h2>
+    <p>Emasur's validated lists propose <strong>201 flat stone
+      identities</strong> where the colour is fused into the code with a dot
+      (<span class="mono">AG</span> Agate, <span class="mono">W.AG</span>
+      White Agate, <span class="mono">BK.AG</span> Black Agate,
+      <span class="mono">PK.AG</span> Pink Agate…), plus separate lists of 13
+      shapes and 13 lapidary cuts.</p>
+    <table class="study-table">
+      <tr><th></th><th>Kept</th><th>Why / why not</th></tr>
+      <tr><td><strong>Commercial identities carry their colour</strong></td>
+          <td>✔ kept</td>
+          <td>it is how the trade names articles — in the retained design a
+            colour-bearing stone declares an <em>implied hue</em>, and writing
+            another hue on it is refused as a double colour</td></tr>
+      <tr><td><strong>Readable mnemonic codes</strong></td>
+          <td>✔ kept</td>
+          <td>the dictionaries use the same spirit (SA, DI, 1P Pink…)</td></tr>
+      <tr><td><strong>Variable-width codes with dots</strong></td>
+          <td>✘ not kept</td>
+          <td>tokens cannot be concatenated unambiguously; average 5.39
+            characters for the identity alone, up to 10
+            (<span class="mono">PTO.FANCY</span>)</td></tr>
+      <tr><td><strong>No quality axis</strong></td>
+          <td>✘ not kept</td>
+          <td>the history grades stones massively (A/AA/AAA depth on 38.7&thinsp;%
+            of lines, Good/Medium/Bad on precious stones): without a grade
+            block, all of them collide</td></tr>
+      <tr><td><strong>No product-code rule</strong></td>
+          <td>✘ completed</td>
+          <td>the goal is a code <em>generated from the composition</em>: the
+            retained design adds the deterministic ordering (center stone
+            first, then heaviest descending)</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>One ring under every grammar</h2>
+    <p class="muted small">Center: Ceylon-light sapphire, pear · surround:
+      blue topaz grade&nbsp;2, round · pavé: white diamonds, baguette.</p>
+    <table class="study-table">
+      <tr><th>Grammar</th><th>Colour code</th><th>Length</th><th>Loses</th></tr>
+      <tr><td>Legacy (no rule)</td>
+          <td class="mono">SA+BTAA+D <span class="muted">or</span> SALC+BT+DTS…</td>
+          <td>—</td><td>unpredictable</td></tr>
+      <tr><td>A</td><td class="mono">SA+BT+DTS</td><td>9</td><td>hues, grades, shapes</td></tr>
+      <tr><td>B</td><td class="mono">SA.LC+BT.AA+DTS</td><td>15</td><td>shapes</td></tr>
+      <tr><td>C</td><td class="mono">SA.LC.PS+BT.AA+DTS..BG</td><td>22</td><td>nothing</td></tr>
+      <tr><td>Emasur</td><td class="mono muted">not expressible</td><td>—</td>
+          <td>no grade axis, no product rule</td></tr>
+      <tr><td><strong>Retained</strong></td><td class="mono strong">SA21CPS+BL2+DIBG</td>
+          <td><strong>16</strong></td><td><strong>nothing</strong></td></tr>
+    </table>
+    <p class="muted small">Reading the retained code:
+      <span class="mono">SA21CPS</span> = sapphire, grade 2, hue Ceylon, pear ·
+      <span class="mono">BL2</span> = blue topaz (implied hue), grade 2,
+      default shape · <span class="mono">DIBG</span> = white diamond, default
+      grade, baguette.</p>
+  </section>
+
+  <section class="card">
+    <h2>Why the retained design answers each goal</h2>
+    <table class="study-table">
+      <tr><th>Goal</th><th>Design feature</th></tr>
+      <tr><td>Generated automatically</td>
+          <td>the product code is derived from the real composition with a
+            deterministic order — center first, heaviest next, ties by
+            token</td></tr>
+      <tr><td>As short as possible</td>
+          <td>3.20 characters on average; the shortest grammar that loses no
+            information without exploding the dictionary</td></tr>
+      <tr><td>Readable</td>
+          <td>mnemonic dictionary codes, and separator-free parsing: a lone
+            digit is a grade, digit+letter is a hue, letters are a shape — at
+            most one reading of any token is structurally valid</td></tr>
+      <tr><td>Detailed only when necessary</td>
+          <td>defaults per stone, determined from occurrence counts in the
+            history, are omitted — the frequent case writes in 2
+            characters</td></tr>
+      <tr><td>No collisions</td>
+          <td>the full stone triplet is encoded (0 product collisions
+            measured); double colours are structurally refused; the 12.3&thinsp;%
+            true twins keep the reserved <span class="mono">[…]</span>
+            suffix</td></tr>
+    </table>
+    <div class="verdict">The retained grammar is the user-proposed fixed-width
+      design with the one-digit grade refinement — Emasur's commercial
+      colour-bearing identities are honoured through implied hues, its
+      variable-width dotted codes and missing axes are not.</div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="muted">Gemstone Notation — design study ·
+    <a href="index.html">workspace</a> · sources: production history and the
+    Emasur validated lists.</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gemstone Notation</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <h1>Gemstone Notation</h1>
+  <p class="tagline">A compact, separator-free code for gemstones —
+    <span class="mono">PP&thinsp;[G]&thinsp;[BB]&thinsp;[EE]</span> :
+    stone, grade, hue, shape. Defaults omitted.</p>
+</header>
+
+<main>
+  <section class="row">
+    <!-- Compose -->
+    <div class="card">
+      <h2>Compose a code</h2>
+      <label class="field">Stone
+        <select id="stone"><option value="">— pick a stone —</option></select>
+      </label>
+      <div class="triple">
+        <label class="field">Grade
+          <select id="grade"><option value="">—</option></select>
+        </label>
+        <label class="field">Hue
+          <select id="hue"><option value="">—</option></select>
+        </label>
+        <label class="field">Shape
+          <select id="shape"><option value="">—</option></select>
+        </label>
+      </div>
+      <div id="composed" class="code-display">· ·</div>
+      <pre id="compose-notes" class="notes"></pre>
+
+      <h3>Product colour code</h3>
+      <p class="muted small">Add the composed stone with its weight; the code
+        orders itself — center stone first, then heaviest descending.</p>
+      <button id="add-stone" type="button" disabled>Add to product</button>
+      <div id="product-lines"></div>
+      <div id="product-code" class="code-display small-code">· ·</div>
+    </div>
+
+    <!-- Read / look up -->
+    <div class="card">
+      <h2>Read a code, look up a name</h2>
+      <div class="query-row">
+        <input id="query" type="text"
+               placeholder="A colour code (SA21C+DI) or a name (Sapphire, Pink...)">
+        <button id="read-btn" type="button">Read</button>
+      </div>
+      <div id="read-results"></div>
+    </div>
+  </section>
+
+  <!-- Dictionaries -->
+  <section class="card">
+    <h2>Dictionaries</h2>
+    <div class="dict-bar">
+      <div class="tabs">
+        <button type="button" data-tab="stones" class="active">Stones</button>
+        <button type="button" data-tab="grades">Grades</button>
+        <button type="button" data-tab="hues">Hues</button>
+        <button type="button" data-tab="shapes">Shapes</button>
+      </div>
+      <input id="dict-filter" type="text" placeholder="Filter...">
+      <span id="dict-count" class="muted small"></span>
+    </div>
+    <div class="table-wrap"><table id="dict-table"></table></div>
+  </section>
+
+  <!-- Documentation -->
+  <section class="card">
+    <h2>How the notation works</h2>
+    <table class="spec">
+      <tr><th>Block</th><th>Width</th><th>Characters</th><th>Meaning</th></tr>
+      <tr><td class="mono">PP</td><td>2</td><td>letters</td><td>stone identity</td></tr>
+      <tr><td class="mono">G</td><td>1</td><td>digit</td><td>quality grade</td></tr>
+      <tr><td class="mono">BB</td><td>2</td><td>digit then letter</td><td>hue</td></tr>
+      <tr><td class="mono">EE</td><td>2</td><td>letters</td><td>cutting shape</td></tr>
+    </table>
+    <ul>
+      <li><strong>No separators needed:</strong> a lone digit can only be a
+        grade, a digit followed by a letter can only start a hue, letters can
+        only be a shape — at most one reading of a token is structurally
+        valid.</li>
+      <li><strong>Defaults keep codes short:</strong> a block equal to the
+        stone's default — determined from occurrence counts in the actual
+        stone history — is omitted, so frequent stones write in two
+        characters.</li>
+      <li><strong>Colour-bearing stones</strong> (Blue Topaz...) declare an
+        <em>implied hue</em>: their tokens never write it, and writing a
+        different hue is refused as a double colour.</li>
+      <li><strong>A product's colour code</strong> joins the distinct stone
+        tokens with <span class="mono">+</span>: center stone first, then
+        heaviest single stone descending, ties by token.</li>
+    </ul>
+    <p class="muted">Full specification in the
+      <a href="https://github.com/augustin-bresset/gem_notation">repository
+      README</a>. The dictionaries are reference data derived from a real
+      production history; the same referential ships as an Odoo module.</p>
+  </section>
+</main>
+
+<footer>
+  <span class="muted">Gemstone Notation — static site, no server, no
+    tracking. Data: <span class="mono">data/*.csv</span>.</span>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/grammar.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

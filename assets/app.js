@@ -12,6 +12,67 @@
   const shapes = byCode(D.shapes);
 
   const combo = window.GemCombo.combo;
+  const script = document.currentScript;
+  const ASSETS = script && script.src ? new URL('.', script.src).href : 'assets/';
+
+  // ── 3D preview ─────────────────────────────────────────────────────
+  // The chosen shape, else the stone's default one, turns in a small
+  // viewer - no parameter to set. three.js and the generator load with
+  // the first preview only; every parameter stays adjustable on
+  // shape3d.html.
+  const preview = { viewer: null, loading: null, code: null };
+
+  function load3d() {
+    if (!preview.loading) {
+      // a self-contained copy of the page may hand over its own loading
+      preview.loading = window.GemShape3DReady || ['vendor/three.js', 'shape3d.js', 'shape3d-recipes.js',
+                         'shape3d-render.js']
+        .reduce((chain, file) => chain.then(() => new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = ASSETS + file;
+          script.onload = resolve;
+          script.onerror = () => reject(new Error(`The 3D preview could not load ${file}.`));
+          document.head.appendChild(script);
+        })), Promise.resolve());
+    }
+    return preview.loading;
+  }
+
+  async function refreshPreview(shape, isDefault) {
+    $('preview-3d').hidden = !shape;
+    preview.code = shape ? shape.code : null;
+    if (!shape) return;
+    const status = $('preview-status');
+    const stage = $('preview-stage');
+    $('preview-name').textContent = `${shape.code} — ${shape.name}`;
+    $('preview-adjust').href = `shape3d.html?shape=${shape.code}`;
+    try {
+      await load3d();
+    } catch (e) {
+      status.textContent = e.message;
+      status.hidden = false;
+      return;
+    }
+    if (preview.code !== shape.code) return;  // another shape was picked meanwhile
+    const G3 = window.GemShape3D;
+    const R = window.GemShapeRecipes;
+    const recipe = R.RECIPES[shape.code];
+    $('preview-cut').textContent = (recipe
+      ? `${G3.OUTLINES[recipe.outline].label.toLowerCase()} · ${R.CUT_LABELS[recipe.cut]}`
+      : '') + (isDefault ? ' · the stone’s default shape' : '');
+    if (!preview.viewer) {
+      preview.viewer = window.GemRender3D.create($('preview-canvas'), { compact: true });
+    }
+    stage.classList.toggle('no-model', !recipe || !preview.viewer);
+    status.hidden = Boolean(recipe && preview.viewer);
+    if (!preview.viewer) {
+      status.textContent = 'WebGL is not available in this browser.';
+    } else if (!recipe) {
+      status.textContent = 'No 3D model for this shape yet.';
+    } else {
+      preview.viewer.setMesh(G3.toBuffers(G3.build(R.specFor(shape.code))));
+    }
+  }
 
   // ── Compose panel ──────────────────────────────────────────────────
   const selection = { stone: null, grade: null, hue: null, shape: null };
@@ -19,14 +80,8 @@
 
   function refreshCompose() {
     const { stone, grade, hue, shape } = selection;
-    // the chosen shape, else the stone's default one, opens in 3D
-    const shape3d = shape || (stone && shapes[stone.default_shape]) || null;
-    const link = $('shape-3d-link');
-    link.hidden = !shape3d;
-    if (shape3d) {
-      link.href = `shape3d.html?shape=${shape3d.code}`;
-      link.textContent = `View ${shape3d.code} — ${shape3d.name} in 3D →`;
-    }
+    // the chosen shape, else the stone's default one, turns in 3D
+    refreshPreview(shape || (stone && shapes[stone.default_shape]) || null, !shape);
     const output = $('composed');
     const notes = $('compose-notes');
     notes.textContent = '';

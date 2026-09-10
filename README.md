@@ -67,7 +67,12 @@ tests/*.test.js            node --test suites
 
 ## 3D shapes
 
-No database holds the trade shapes, so `shape3d.html` **generates** each
+Composing a code on the workspace shows the stone turning in a small
+3D preview — the chosen shape, else the stone's default one, with no
+parameter to set. `shape3d.html` is the full version, where every
+parameter can be adjusted.
+
+No database holds the trade shapes, so the site **generates** each
 stone from parameters. A stone is an **outline** — the girdle seen from
 above: round, oval, pear, marquise, heart, cushion, octagon, trillion,
 kite, half moon, star… — crossed with a **top** and a **bottom** half

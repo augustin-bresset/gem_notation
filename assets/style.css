@@ -142,4 +142,18 @@ footer { text-align: center; padding: 18px; border-top: 1px solid var(--line); }
   border: 1px solid rgba(255,255,255,0.5); border-radius: 6px;
   color: #fff; text-decoration: none; font-size: 0.85rem; margin-right: 6px; }
 .header-link:hover { background: rgba(255,255,255,0.12); }
-#shape-3d-link { display: inline-block; margin-top: 6px; color: var(--ink); }
+[hidden] { display: none !important; }
+
+/* 3D preview in the compose panel */
+.preview-3d { margin: 0 0 8px; }
+.preview-stage { position: relative; height: 210px; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: radial-gradient(ellipse at 50% 38%, #ffffff 0%, #ecece8 68%, #e0e0dc 100%); }
+.preview-stage canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+.preview-stage.no-model canvas { visibility: hidden; }
+.preview-status { position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; padding: 16px; text-align: center;
+  font-size: 0.85rem; color: var(--muted); pointer-events: none; }
+.preview-caption { display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12px; margin-top: 6px; font-size: 0.85rem; }
+.preview-caption a { color: var(--ink); white-space: nowrap; }

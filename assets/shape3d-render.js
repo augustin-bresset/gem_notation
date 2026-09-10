@@ -20,8 +20,11 @@
     Math.cos(pitch) * Math.cos(yaw), Math.cos(pitch) * Math.sin(yaw), Math.sin(pitch));
 
   // canvas -> viewer, or null when three.js or WebGL is unavailable.
-  function create(canvas) {
+  // options.compact: a preview inside a page - it turns by itself and
+  // leaves the wheel to the page (no zoom, no pan).
+  function create(canvas, options) {
     if (!THREE) return null;
+    const compact = Boolean(options && options.compact);
     let renderer;
     try {
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true,
@@ -46,6 +49,10 @@
     controls.enableDamping = true;
     controls.dampingFactor = 0.12;
     controls.autoRotateSpeed = 3;
+    if (compact) {
+      Object.assign(controls, { enableZoom: false, enablePan: false,
+                                autoRotate: true, autoRotateSpeed: 2 });
+    }
 
     const stone = new THREE.Mesh(new THREE.BufferGeometry(),
       // reflective enough that each facet catches the studio differently
@@ -70,7 +77,9 @@
 
     let radius = 0;
     let firstView = VIEWS.three;  // a view asked for before any mesh
-    const fitDistance = (r) => (r / Math.sin(THREE.MathUtils.degToRad(camera.fov) / 2)) * 1.02;
+    // the bounding sphere is generous for a flat stone: a preview frames tighter
+    const fitDistance = (r) => (r / Math.sin(THREE.MathUtils.degToRad(camera.fov) / 2))
+      * (compact ? 0.72 : 1.02);
 
     function setMesh(data) {
       const geometry = new THREE.BufferGeometry();
@@ -134,16 +143,23 @@
     }
 
     let frame = 0;
+    let onScreen = true;  // no spinning for nobody when scrolled away
     function tick() {
       frame = 0;
       const moving = controls.update();
       render();
-      if (moving || controls.autoRotate) request();
+      if (moving || (controls.autoRotate && onScreen)) request();
     }
     function request() { if (!frame) frame = requestAnimationFrame(tick); }
     controls.addEventListener('change', request);
     canvas.addEventListener('dblclick', () => view('three'));
     if (window.ResizeObserver) new ResizeObserver(request).observe(canvas);
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(([entry]) => {
+        onScreen = entry.isIntersecting;
+        request();
+      }).observe(canvas);
+    }
 
     // The stone at `widthMm` millimetres wide (the model's width is 1):
     // STL in millimetres, Z up; GLB in metres, Y up as glTF wants.

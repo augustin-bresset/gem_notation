@@ -3,62 +3,97 @@
   'use strict';
   const D = window.GEM_DATA;
   const G = window.GemGrammar;
+  const S = window.GemSearch;
   const $ = (id) => document.getElementById(id);
 
   const byCode = (rows) => Object.fromEntries(rows.map((r) => [r.code, r]));
-  const stones = byCode(D.stones);
-  const grades = byCode(D.grades);
+  const categories = byCode(D.categories);
   const hues = byCode(D.hues);
   const shapes = byCode(D.shapes);
-  const categories = byCode(D.categories);
+
+  // ── Searchable combo ───────────────────────────────────────────────
+  // A text input with a ranked dropdown (GemSearch): type a name or a
+  // code, pick with the mouse or Up/Down + Enter; empty input clears.
+  function combo(inputId, rows, detailOf, onChange) {
+    const input = $(inputId);
+    const list = input.parentElement.querySelector('.combo-list');
+    let current = null;
+    let visible = [];
+    let highlighted = 0;
+
+    const display = () => {
+      input.value = current ? `${current.code} — ${current.name}` : '';
+    };
+    const close = () => { list.hidden = true; };
+
+    function render(query) {
+      visible = S.search(rows, query).slice(0, 50);
+      highlighted = 0;
+      list.innerHTML = visible.map((row, index) =>
+        `<div class="combo-item${index === 0 ? ' hl' : ''}" data-i="${index}">`
+        + `<span class="mono strong">${row.code}</span> ${row.name}`
+        + (detailOf && detailOf(row)
+            ? ` <span class="muted">${detailOf(row)}</span>` : '')
+        + '</div>').join('');
+      list.hidden = visible.length === 0;
+    }
+    function highlight(index) {
+      highlighted = Math.max(0, Math.min(index, visible.length - 1));
+      list.querySelectorAll('.combo-item').forEach((el, i) => {
+        el.classList.toggle('hl', i === highlighted);
+        if (i === highlighted) el.scrollIntoView({ block: 'nearest' });
+      });
+    }
+    function pick(row) {
+      current = row || null;
+      display();
+      close();
+      onChange(current);
+    }
+
+    input.addEventListener('focus', () => { input.select(); render(''); });
+    input.addEventListener('input', () => render(input.value));
+    input.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowDown') { highlight(highlighted + 1); ev.preventDefault(); }
+      else if (ev.key === 'ArrowUp') { highlight(highlighted - 1); ev.preventDefault(); }
+      else if (ev.key === 'Enter') {
+        if (!input.value.trim()) pick(null);
+        else if (visible.length) pick(visible[highlighted]);
+        ev.preventDefault();
+      } else if (ev.key === 'Escape') { display(); close(); }
+    });
+    input.addEventListener('blur', () => {
+      setTimeout(() => {
+        if (!input.value.trim() && current) pick(null);
+        else display();
+        close();
+      }, 150);
+    });
+    list.addEventListener('mousedown', (ev) => {
+      ev.preventDefault();
+      const item = ev.target.closest('.combo-item');
+      if (item) pick(visible[parseInt(item.dataset.i, 10)]);
+    });
+
+    return { get: () => current };
+  }
 
   // ── Compose panel ──────────────────────────────────────────────────
-  function fillSelect(select, rows, labelOf) {
-    for (const row of rows) {
-      const option = document.createElement('option');
-      option.value = row.code;
-      option.textContent = labelOf(row);
-      select.appendChild(option);
-    }
-  }
-
-  const stoneSelect = $('stone');
-  for (const category of D.categories) {
-    const group = document.createElement('optgroup');
-    group.label = category.name;
-    for (const stone of D.stones.filter((s) => s.category === category.code)) {
-      const option = document.createElement('option');
-      option.value = stone.code;
-      option.textContent = `${stone.code} — ${stone.name}`;
-      group.appendChild(option);
-    }
-    if (group.children.length) stoneSelect.appendChild(group);
-  }
-  const uncategorised = D.stones.filter((s) => !categories[s.category]);
-  if (uncategorised.length) {
-    fillSelect(stoneSelect, uncategorised, (s) => `${s.code} — ${s.name}`);
-  }
-  fillSelect($('grade'), D.grades, (g) => `${g.code} — ${g.name}`);
-  fillSelect($('hue'), D.hues, (h) => `${h.code} — ${h.name}`);
-  fillSelect($('shape'), D.shapes, (f) => `${f.code} — ${f.name}`);
-
+  const selection = { stone: null, grade: null, hue: null, shape: null };
   let composed = null;
 
   function refreshCompose() {
-    const stone = stones[stoneSelect.value];
+    const { stone, grade, hue, shape } = selection;
     const output = $('composed');
     const notes = $('compose-notes');
     notes.textContent = '';
     output.classList.remove('error');
-    $('add-stone').disabled = !stone;
+    composed = null;
+    $('add-stone').disabled = true;
     if (!stone) {
-      composed = null;
       output.textContent = '· ·';
       return;
     }
-    const grade = grades[$('grade').value] || null;
-    const hue = hues[$('hue').value] || null;
-    const shape = shapes[$('shape').value] || null;
     const built = G.buildToken(stone, grade, hue, shape);
     composed = built.problems.length ? null : built.token;
     output.textContent = built.token;
@@ -80,9 +115,16 @@
     }
     notes.textContent = lines.join('\n');
   }
-  for (const id of ['stone', 'grade', 'hue', 'shape']) {
-    $(id).addEventListener('change', refreshCompose);
-  }
+
+  combo('stone', D.stones,
+    (s) => categories[s.category] ? categories[s.category].name : '',
+    (row) => { selection.stone = row; refreshCompose(); });
+  combo('grade', D.grades, null,
+    (row) => { selection.grade = row; refreshCompose(); });
+  combo('hue', D.hues, null,
+    (row) => { selection.hue = row; refreshCompose(); });
+  combo('shape', D.shapes, null,
+    (row) => { selection.shape = row; refreshCompose(); });
   refreshCompose();
 
   // ── Product builder ────────────────────────────────────────────────
@@ -126,15 +168,12 @@
 
   // ── Read / look up ─────────────────────────────────────────────────
   function lookupMatches(text) {
-    const needle = text.toLowerCase();
-    const hit = (row) => row.code.toLowerCase().includes(needle)
-      || row.name.toLowerCase().includes(needle);
     return {
-      Stones: D.stones.filter(hit).slice(0, 12)
+      Stones: S.search(D.stones, text).slice(0, 12)
         .map((s) => [s.code, `${s.name}${categories[s.category] ? ' (' + categories[s.category].name + ')' : ''}`]),
-      Grades: D.grades.filter(hit).slice(0, 12).map((g) => [g.code, g.name]),
-      Hues: D.hues.filter(hit).slice(0, 12).map((h) => [h.code, h.name]),
-      Shapes: D.shapes.filter(hit).slice(0, 12).map((f) => [f.code, f.name]),
+      Grades: S.search(D.grades, text).slice(0, 12).map((g) => [g.code, g.name]),
+      Hues: S.search(D.hues, text).slice(0, 12).map((h) => [h.code, h.name]),
+      Shapes: S.search(D.shapes, text).slice(0, 12).map((f) => [f.code, f.name]),
     };
   }
 
@@ -202,9 +241,15 @@
   let activeTab = 'stones';
 
   function renderDict() {
-    const filter = $('dict-filter').value.trim().toLowerCase();
-    const rows = tabs[activeTab]().filter((row) => !filter
-      || row.some((cell) => String(cell).toLowerCase().includes(filter)));
+    const filter = $('dict-filter').value.trim();
+    const source = { stones: D.stones, grades: D.grades,
+                     hues: D.hues, shapes: D.shapes }[activeTab];
+    const ranked = filter ? S.search(source, filter) : source;
+    const rowsOf = { stones: (s) => [s.code, s.name,
+        categories[s.category] ? categories[s.category].name : '',
+        s.implied_hue, s.default_grade, s.default_hue, s.default_shape] };
+    const toRow = rowsOf[activeTab] || ((r) => [r.code, r.name]);
+    const rows = ranked.map(toRow);
     $('dict-table').innerHTML = '<tr>'
       + headers[activeTab].map((h) => `<th>${h}</th>`).join('') + '</tr>'
       + rows.map((row) => '<tr>' + row.map((cell, i) =>

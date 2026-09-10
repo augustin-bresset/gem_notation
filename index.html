@@ -21,17 +21,29 @@
     <div class="card">
       <h2>Compose a code</h2>
       <label class="field">Stone
-        <select id="stone"><option value="">— pick a stone —</option></select>
+        <div class="combo">
+          <input id="stone" type="text" placeholder="Type to search — name or code" autocomplete="off">
+          <div class="combo-list" hidden></div>
+        </div>
       </label>
       <div class="triple">
         <label class="field">Grade
-          <select id="grade"><option value="">—</option></select>
+          <div class="combo">
+            <input id="grade" type="text" placeholder="Type to search" autocomplete="off">
+            <div class="combo-list" hidden></div>
+          </div>
         </label>
         <label class="field">Hue
-          <select id="hue"><option value="">—</option></select>
+          <div class="combo">
+            <input id="hue" type="text" placeholder="Type to search" autocomplete="off">
+            <div class="combo-list" hidden></div>
+          </div>
         </label>
         <label class="field">Shape
-          <select id="shape"><option value="">—</option></select>
+          <div class="combo">
+            <input id="shape" type="text" placeholder="Type to search" autocomplete="off">
+            <div class="combo-list" hidden></div>
+          </div>
         </label>
       </div>
       <div id="composed" class="code-display">· ·</div>
@@ -113,6 +125,7 @@
 
 <script src="assets/data.js"></script>
 <script src="assets/grammar.js"></script>
+<script src="assets/search.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

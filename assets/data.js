@@ -29,31 +29,31 @@
  "grades": [
   {
    "code": "1",
-   "name": "2 Good"
+   "name": "Light Color"
   },
   {
    "code": "2",
-   "name": "3 Medium"
+   "name": "Medium Color"
   },
   {
    "code": "3",
-   "name": "A Light Color"
+   "name": "Dark Color"
   },
   {
    "code": "4",
-   "name": "AA Medium Color"
+   "name": "Darker Color"
   },
   {
    "code": "5",
-   "name": "AAA Dark Color"
+   "name": "Good"
   },
   {
    "code": "6",
-   "name": "AAAA Darker Color"
+   "name": "Medium"
   },
   {
    "code": "7",
-   "name": "C Bad"
+   "name": "Bad"
   }
  ],
  "hues": [
@@ -71,7 +71,7 @@
   },
   {
    "code": "1D",
-   "name": "Dts"
+   "name": "Dull"
   },
   {
    "code": "1E",
@@ -79,7 +79,7 @@
   },
   {
    "code": "1F",
-   "name": "First Fire"
+   "name": "First"
   },
   {
    "code": "1G",
@@ -87,7 +87,7 @@
   },
   {
    "code": "1H",
-   "name": "Whiskey"
+   "name": "White I1"
   },
   {
    "code": "1I",
@@ -99,7 +99,7 @@
   },
   {
    "code": "1K",
-   "name": "Kanchana Dull"
+   "name": "White I2"
   },
   {
    "code": "1L",
@@ -123,7 +123,7 @@
   },
   {
    "code": "1Q",
-   "name": "White I1"
+   "name": "White I3"
   },
   {
    "code": "1R",
@@ -139,7 +139,7 @@
   },
   {
    "code": "1U",
-   "name": "White I2"
+   "name": "Wang Yeung"
   },
   {
    "code": "1V",
@@ -147,19 +147,15 @@
   },
   {
    "code": "1W",
-   "name": "White Sapphire"
+   "name": "White"
   },
   {
    "code": "1X",
-   "name": "White I3"
+   "name": "Smokey"
   },
   {
    "code": "1Y",
-   "name": "Wang Yeung"
-  },
-  {
-   "code": "1Z",
-   "name": "Smokey"
+   "name": "Yellow"
   },
   {
    "code": "2A",
@@ -174,12 +170,12 @@
    "name": "Chrome deep"
   },
   {
-   "code": "2G",
-   "name": "Good"
+   "code": "2D",
+   "name": "Dts"
   },
   {
-   "code": "2K",
-   "name": "Kanchana Fire"
+   "code": "2G",
+   "name": "Gold"
   },
   {
    "code": "2L",
@@ -215,7 +211,7 @@
   },
   {
    "code": "2Y",
-   "name": "Yellow"
+   "name": "YELLOW MEDIUM"
   },
   {
    "code": "3A",
@@ -231,7 +227,7 @@
   },
   {
    "code": "3G",
-   "name": "Gold"
+   "name": "Green"
   },
   {
    "code": "3L",
@@ -239,7 +235,7 @@
   },
   {
    "code": "3M",
-   "name": "medium"
+   "name": "Malaya"
   },
   {
    "code": "3O",
@@ -279,7 +275,7 @@
   },
   {
    "code": "4G",
-   "name": "Green"
+   "name": "Grey"
   },
   {
    "code": "4L",
@@ -287,7 +283,7 @@
   },
   {
    "code": "4M",
-   "name": "Malaya"
+   "name": "Mint"
   },
   {
    "code": "4P",
@@ -322,16 +318,12 @@
    "name": "Charcoal"
   },
   {
-   "code": "5G",
-   "name": "Grey"
-  },
-  {
    "code": "5M",
-   "name": "Mint"
+   "name": "Multi"
   },
   {
    "code": "5P",
-   "name": "PURPLE"
+   "name": "PINK MEDIUM"
   },
   {
    "code": "5R",
@@ -358,12 +350,8 @@
    "name": "Champaign"
   },
   {
-   "code": "6G",
-   "name": "Grey A"
-  },
-  {
-   "code": "6M",
-   "name": "Multi"
+   "code": "6P",
+   "name": "PURPLE"
   },
   {
    "code": "6R",
@@ -375,7 +363,7 @@
   },
   {
    "code": "6W",
-   "name": "White"
+   "name": "White B"
   },
   {
    "code": "7B",
@@ -384,10 +372,6 @@
   {
    "code": "7C",
    "name": "Ceylon"
-  },
-  {
-   "code": "7G",
-   "name": "Grey AA"
   },
   {
    "code": "7R",
@@ -399,19 +383,19 @@
   },
   {
    "code": "7W",
-   "name": "White B"
+   "name": "White Cat"
   },
   {
-   "code": "8G",
-   "name": "Grey AAA"
+   "code": "8C",
+   "name": "Ceylon Medium"
   },
   {
    "code": "8S",
-   "name": "South Seas Pearl"
+   "name": "South Seas"
   },
   {
    "code": "8W",
-   "name": "White Cat Eye"
+   "name": "White D"
   },
   {
    "code": "9S",
@@ -419,7 +403,7 @@
   },
   {
    "code": "9W",
-   "name": "White D"
+   "name": "Whiskey"
   }
  ],
  "shapes": [
@@ -1170,7 +1154,7 @@
    "category": "H",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "OG"
   },
   {
@@ -1179,7 +1163,7 @@
    "category": "R",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "RD"
   },
   {
@@ -1196,7 +1180,7 @@
    "name": "Amethyst",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "4",
+   "default_grade": "2",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1215,7 +1199,7 @@
    "category": "S",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "4G",
+   "default_hue": "3G",
    "default_shape": "RD"
   },
   {
@@ -1223,7 +1207,7 @@
    "name": "Aquamarine",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "5",
+   "default_grade": "3",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1242,7 +1226,7 @@
    "category": "H",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "4G",
+   "default_hue": "3G",
    "default_shape": "OG"
   },
   {
@@ -1277,7 +1261,7 @@
    "name": "Blue Topaz",
    "category": "S",
    "implied_hue": "2B",
-   "default_grade": "3",
+   "default_grade": "1",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1322,8 +1306,8 @@
    "name": "Beryl",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "3",
-   "default_hue": "2Y",
+   "default_grade": "1",
+   "default_hue": "1Y",
    "default_shape": "OG"
   },
   {
@@ -1358,7 +1342,7 @@
    "name": "Cognac",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "3",
+   "default_grade": "1",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1376,7 +1360,7 @@
    "name": "Citrine",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "5",
+   "default_grade": "3",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1385,7 +1369,7 @@
    "name": "Champaign Quartz",
    "category": "S",
    "implied_hue": "6C",
-   "default_grade": "3",
+   "default_grade": "1",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1467,7 +1451,7 @@
    "category": "H",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "4G",
+   "default_hue": "3G",
    "default_shape": "RD"
   },
   {
@@ -1502,7 +1486,7 @@
    "name": "Emerald",
    "category": "P",
    "implied_hue": "",
-   "default_grade": "1",
+   "default_grade": "5",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1539,15 +1523,15 @@
    "category": "S",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "4M",
+   "default_hue": "3M",
    "default_shape": "RD"
   },
   {
    "code": "GE",
    "name": "Green Tourmaline",
    "category": "S",
-   "implied_hue": "4G",
-   "default_grade": "5",
+   "implied_hue": "3G",
+   "default_grade": "3",
    "default_hue": "3C",
    "default_shape": "RD"
   },
@@ -1555,8 +1539,8 @@
    "code": "GR",
    "name": "GREEN QUARTZ",
    "category": "S",
-   "implied_hue": "4G",
-   "default_grade": "1",
+   "implied_hue": "3G",
+   "default_grade": "5",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1574,7 +1558,7 @@
    "name": "Iolite",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "3",
+   "default_grade": "1",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1628,8 +1612,8 @@
    "name": "Lapis",
    "category": "H",
    "implied_hue": "",
-   "default_grade": "",
-   "default_hue": "2G",
+   "default_grade": "5",
+   "default_hue": "",
    "default_shape": "OG"
   },
   {
@@ -1646,7 +1630,7 @@
    "name": "Lemon Quartz",
    "category": "S",
    "implied_hue": "4L",
-   "default_grade": "3",
+   "default_grade": "1",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1655,8 +1639,8 @@
    "name": "Malachite",
    "category": "H",
    "implied_hue": "",
-   "default_grade": "",
-   "default_hue": "2G",
+   "default_grade": "5",
+   "default_hue": "",
    "default_shape": "RT"
   },
   {
@@ -1700,7 +1684,7 @@
    "name": "Morganite",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "4",
+   "default_grade": "2",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1719,7 +1703,7 @@
    "category": "H",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "PC"
   },
   {
@@ -1728,7 +1712,7 @@
    "category": "H",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "4G",
+   "default_hue": "3G",
    "default_shape": "OG"
   },
   {
@@ -1755,7 +1739,7 @@
    "category": "H",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "MI"
   },
   {
@@ -1773,7 +1757,7 @@
    "category": "R",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "RD"
   },
   {
@@ -1790,7 +1774,7 @@
    "name": "Peridot",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "5",
+   "default_grade": "3",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1800,7 +1784,7 @@
    "category": "R",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "RD"
   },
   {
@@ -1818,7 +1802,7 @@
    "category": "R",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "RD"
   },
   {
@@ -1836,7 +1820,7 @@
    "category": "S",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "DG"
   },
   {
@@ -1926,7 +1910,7 @@
    "category": "S",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "3G",
+   "default_hue": "2G",
    "default_shape": "OG"
   },
   {
@@ -1934,7 +1918,7 @@
    "name": "Ruby",
    "category": "P",
    "implied_hue": "",
-   "default_grade": "1",
+   "default_grade": "5",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -1943,7 +1927,7 @@
    "name": "Sapphire",
    "category": "P",
    "implied_hue": "",
-   "default_grade": "3",
+   "default_grade": "1",
    "default_hue": "4P",
    "default_shape": "RD"
   },
@@ -1961,8 +1945,8 @@
    "name": "Spessartite",
    "category": "S",
    "implied_hue": "",
-   "default_grade": "",
-   "default_hue": "3M",
+   "default_grade": "2",
+   "default_hue": "",
    "default_shape": "RD"
   },
   {
@@ -1996,8 +1980,8 @@
    "code": "SM",
    "name": "Smokey Quartz",
    "category": "S",
-   "implied_hue": "1Z",
-   "default_grade": "3",
+   "implied_hue": "1X",
+   "default_grade": "1",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -2006,8 +1990,8 @@
    "name": "Sapphire Kanchana",
    "category": "P",
    "implied_hue": "",
-   "default_grade": "3",
-   "default_hue": "1K",
+   "default_grade": "1",
+   "default_hue": "1D",
    "default_shape": "OG"
   },
   {
@@ -2016,7 +2000,7 @@
    "category": "H",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "MI"
   },
   {
@@ -2042,7 +2026,7 @@
    "name": "Tanzanite",
    "category": "P",
    "implied_hue": "",
-   "default_grade": "5",
+   "default_grade": "3",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -2070,7 +2054,7 @@
    "category": "S",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "OV"
   },
   {
@@ -2087,7 +2071,7 @@
    "name": "Tsavorite",
    "category": "P",
    "implied_hue": "",
-   "default_grade": "3",
+   "default_grade": "1",
    "default_hue": "",
    "default_shape": "RD"
   },
@@ -2113,7 +2097,7 @@
    "code": "WH",
    "name": "White Topaz",
    "category": "S",
-   "implied_hue": "6W",
+   "implied_hue": "1W",
    "default_grade": "",
    "default_hue": "",
    "default_shape": "RD"
@@ -2122,7 +2106,7 @@
    "code": "WI",
    "name": "White Quartz",
    "category": "H",
-   "implied_hue": "6W",
+   "implied_hue": "1W",
    "default_grade": "",
    "default_hue": "2M",
    "default_shape": "DH"
@@ -2142,7 +2126,7 @@
    "category": "S",
    "implied_hue": "",
    "default_grade": "",
-   "default_hue": "6W",
+   "default_hue": "1W",
    "default_shape": "RD"
   }
  ]

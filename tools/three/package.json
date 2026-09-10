@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "description": "Builds assets/vendor/three.js: three.js and the addons the 3D page uses, as one plain script (window.THREE), so the site still opens from file:// with nothing to install.",
+  "scripts": {
+    "build": "esbuild entry.js --bundle --minify --format=iife --global-name=THREE --legal-comments=inline \"--banner:js=// three.js + addons, bundled by tools/three (npm run build) - do not edit.\" --outfile=../../assets/vendor/three.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "three": "0.186.0"
+  }
+}

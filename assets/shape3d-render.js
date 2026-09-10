@@ -1,0 +1,179 @@
+// Gemstone Notation - 3D viewer for the generated stones, on three.js
+// (vendored as assets/vendor/three.js, window.THREE). Physically based
+// shading lit by a studio environment, a soft contact shadow, facet
+// edges as lines, orbit controls - drag to turn, right-drag to pan,
+// wheel or pinch to zoom, double-click to reset - and STL / GLB export at
+// a real size. Z is up: the table faces the sky. Neutral polished
+// material for now; the stone's colour and optics come later.
+(function (root) {
+  'use strict';
+  const THREE = root.THREE;
+
+  const VIEWS = {
+    three: { yaw: -1.15, pitch: 0.5 },
+    top: { yaw: -Math.PI / 2, pitch: Math.PI / 2 - 1e-4 },
+    side: { yaw: -Math.PI / 2, pitch: 0 },
+    front: { yaw: 0, pitch: 0 },
+    bottom: { yaw: -Math.PI / 2, pitch: -Math.PI / 2 + 1e-4 },
+  };
+  const direction = ({ yaw, pitch }) => new THREE.Vector3(
+    Math.cos(pitch) * Math.cos(yaw), Math.cos(pitch) * Math.sin(yaw), Math.sin(pitch));
+
+  // canvas -> viewer, or null when three.js or WebGL is unavailable.
+  function create(canvas) {
+    if (!THREE) return null;
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true,
+                                           preserveDrawingBuffer: true });
+    } catch (e) {
+      return null;
+    }
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.9;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const scene = new THREE.Scene();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+    pmrem.dispose();
+
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.01, 100);
+    camera.up.set(0, 0, 1);  // before the controls: they orbit around it
+    const controls = new THREE.OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.12;
+    controls.autoRotateSpeed = 3;
+
+    const stone = new THREE.Mesh(new THREE.BufferGeometry(),
+      // reflective enough that each facet catches the studio differently
+      new THREE.MeshPhysicalMaterial({
+        color: 0xa9b1bd, roughness: 0.12, metalness: 0.35,
+        clearcoat: 1, clearcoatRoughness: 0.05,
+        // push the faces back a hair so the edge lines win the depth test
+        polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+      }));
+    stone.castShadow = true;
+    const edges = new THREE.LineSegments(new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({ color: 0x141418, transparent: true, opacity: 0.45 }));
+
+    // a key light for the shadow, caught by an invisible floor
+    const key = new THREE.DirectionalLight(0xffffff, 1.0);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(1, 1),
+      new THREE.ShadowMaterial({ opacity: 0.16 }));
+    floor.receiveShadow = true;
+    scene.add(stone, edges, key, key.target, floor);
+
+    let radius = 0;
+    let firstView = VIEWS.three;  // a view asked for before any mesh
+    const fitDistance = (r) => (r / Math.sin(THREE.MathUtils.degToRad(camera.fov) / 2)) * 1.02;
+
+    function setMesh(data) {
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(data.positions, 3));
+      geometry.setAttribute('normal', new THREE.BufferAttribute(data.normals, 3));
+      stone.geometry.dispose();
+      stone.geometry = geometry;
+      const lines = new THREE.BufferGeometry();
+      lines.setAttribute('position', new THREE.BufferAttribute(data.edges, 3));
+      edges.geometry.dispose();
+      edges.geometry = lines;
+
+      const { min, max } = data.bounds;
+      const center = new THREE.Vector3(...min.map((x, k) => (x + max[k]) / 2));
+      const r = Math.max(1e-3, Math.hypot(...max.map((x, k) => x - min[k])) / 2);
+      // keep the viewing direction and the zoom, relative to the new size
+      const offset = camera.position.clone().sub(controls.target);
+      const zoom = radius ? offset.length() / fitDistance(radius) : 1;
+      if (!radius) offset.copy(direction(firstView));
+      offset.setLength(zoom * fitDistance(r));
+      controls.target.copy(center);
+      camera.position.copy(center).add(offset);
+      radius = r;
+      camera.near = r / 50;
+      camera.far = fitDistance(r) * 6;
+      camera.updateProjectionMatrix();
+      controls.minDistance = fitDistance(r) * 0.3;
+      controls.maxDistance = fitDistance(r) * 4;
+
+      key.position.copy(center).add(new THREE.Vector3(-0.5, -0.7, 3).multiplyScalar(r));
+      key.target.position.copy(center);
+      const box = key.shadow.camera;
+      Object.assign(box, { left: -2 * r, right: 2 * r, top: 2 * r, bottom: -2 * r,
+                           near: r * 0.1, far: r * 8 });
+      box.updateProjectionMatrix();
+      key.shadow.normalBias = r * 0.02;  // no self-shadow acne on the curves
+      floor.position.set(center.x, center.y, min[2] - r * 0.002);
+      floor.scale.setScalar(r * 8);
+      request();
+    }
+
+    function view(name) {
+      if (!radius) { firstView = VIEWS[name] || VIEWS.three; return; }
+      camera.position.copy(controls.target)
+        .add(direction(VIEWS[name] || VIEWS.three).multiplyScalar(fitDistance(radius)));
+      controls.update();
+      request();
+    }
+
+    function render() {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      const size = renderer.getSize(new THREE.Vector2());
+      if (size.x !== w || size.y !== h) {
+        renderer.setSize(w, h, false);
+        camera.aspect = w / Math.max(1, h);
+        camera.updateProjectionMatrix();
+      }
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    let frame = 0;
+    function tick() {
+      frame = 0;
+      const moving = controls.update();
+      render();
+      if (moving || controls.autoRotate) request();
+    }
+    function request() { if (!frame) frame = requestAnimationFrame(tick); }
+    controls.addEventListener('change', request);
+    canvas.addEventListener('dblclick', () => view('three'));
+    if (window.ResizeObserver) new ResizeObserver(request).observe(canvas);
+
+    // The stone at `widthMm` millimetres wide (the model's width is 1):
+    // STL in millimetres, Z up; GLB in metres, Y up as glTF wants.
+    function exportModel(format, widthMm) {
+      const mesh = new THREE.Mesh(stone.geometry,
+        new THREE.MeshStandardMaterial({ color: 0xcfd5dd, roughness: 0.2 }));
+      if (format === 'stl') {
+        mesh.scale.setScalar(widthMm);
+        mesh.updateMatrixWorld(true);
+        const data = new THREE.STLExporter().parse(mesh, { binary: true });
+        return Promise.resolve(new Blob([data], { type: 'model/stl' }));
+      }
+      mesh.scale.setScalar(widthMm / 1000);
+      const holder = new THREE.Group();
+      holder.rotation.x = -Math.PI / 2;
+      holder.add(mesh);
+      return new Promise((resolve, reject) => new THREE.GLTFExporter().parse(holder,
+        (buffer) => resolve(new Blob([buffer], { type: 'model/gltf-binary' })),
+        reject, { binary: true }));
+    }
+
+    return {
+      setMesh,
+      view,
+      render,
+      exportModel,
+      setEdges: (on) => { edges.visible = Boolean(on); request(); },
+      setAutoRotate: (on) => { controls.autoRotate = Boolean(on); request(); },
+    };
+  }
+
+  root.GemRender3D = { create, VIEWS };
+})(this);

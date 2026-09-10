@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gemstone Notation — 3D Shapes</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  main.lab-main { max-width: 1240px; }
+  .lab { display: grid; grid-template-columns: minmax(290px, 350px) 1fr;
+         gap: 20px; align-items: start; }
+  .lab .card { margin-bottom: 0; }
+  .stage { position: sticky; top: 16px; }
+  .stage-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+               margin-bottom: 10px; }
+  .stage-bar .spacer { flex: 1; }
+  .chip { background: transparent; color: var(--ink); border: 1px solid var(--line);
+          padding: 4px 11px; font-size: 0.82rem; }
+  .chip:hover { background: var(--paper); }
+  .toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 0.82rem;
+            margin-left: 6px; }
+  .canvas-wrap { position: relative; aspect-ratio: 4 / 3; min-height: 320px;
+                 border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+                 background: radial-gradient(ellipse at 50% 38%, #ffffff 0%,
+                             #ecece8 68%, #e0e0dc 100%); }
+  #view { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+  #view:active { cursor: grabbing; }
+  .hint { position: absolute; left: 12px; bottom: 8px; font-size: 0.75rem;
+          color: var(--muted); pointer-events: none; }
+  .no-gl { position: absolute; inset: 0; display: flex; align-items: center;
+           justify-content: center; padding: 20px; text-align: center; color: var(--muted); }
+  .no-gl[hidden] { display: none; }
+  #stats { margin-top: 10px; font-size: 0.85rem; }
+  .recipe-note { font-size: 0.85rem; margin: 2px 0 4px; }
+  .recipe-note .approx, .recipe-note .custom { color: var(--muted); font-style: italic; }
+  .ctl-group { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px; }
+  .ctl-group h3 { margin: 0 0 2px; font-size: 0.72rem; text-transform: uppercase;
+                  letter-spacing: 1px; color: var(--muted); }
+  .ctl { display: grid; grid-template-columns: 1fr auto; align-items: baseline;
+         column-gap: 8px; margin: 7px 0; font-size: 0.84rem; }
+  .ctl .val { font-family: "SF Mono", Consolas, Menlo, monospace; font-size: 0.78rem;
+              color: var(--muted); }
+  .ctl input[type=range], .ctl select { grid-column: 1 / -1; width: 100%; margin: 3px 0 0; }
+  .ctl input[type=range] { accent-color: var(--accent); }
+  .ctl select { padding: 5px 8px; font: inherit; border: 1px solid var(--line);
+                border-radius: 6px; background: #fff; }
+  .export-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+                margin-top: 10px; }
+  .export-row input { width: 64px; padding: 3px 6px; font: inherit;
+                      border: 1px solid var(--line); border-radius: 4px; }
+  .button-row { display: flex; gap: 8px; margin-top: 16px; }
+  .button-row .chip { flex: 1; }
+  .explain { margin-top: 20px; }
+  .explain .spec td { white-space: normal; }
+  @media (max-width: 860px) {
+    .lab { grid-template-columns: 1fr; }
+    .stage { position: static; order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>3D Shapes</h1>
+  <p class="tagline">Every stone is generated from parameters — an outline crossed
+    with a top and a bottom profile. Shape only for now; colour and optics come
+    later.</p>
+  <a class="header-link" href="index.html">← back to the workspace</a>
+</header>
+
+<main class="lab-main">
+  <section class="lab">
+    <div class="card controls">
+      <label class="field">Shape
+        <div class="combo">
+          <input id="shape" type="text" placeholder="Type to search — name or code" autocomplete="off">
+          <div class="combo-list" hidden></div>
+        </div>
+      </label>
+      <div id="recipe-note" class="recipe-note"></div>
+      <div id="controls"></div>
+      <div class="button-row">
+        <button id="reset" type="button" class="chip">Reset to the shape</button>
+        <button id="copy" type="button" class="chip">Copy parameters</button>
+      </div>
+    </div>
+
+    <div class="card stage">
+      <div class="stage-bar">
+        <button type="button" class="chip" data-view="three">3/4</button>
+        <button type="button" class="chip" data-view="top">Top</button>
+        <button type="button" class="chip" data-view="side">Side</button>
+        <button type="button" class="chip" data-view="front">End</button>
+        <button type="button" class="chip" data-view="bottom">Bottom</button>
+        <span class="spacer"></span>
+        <label class="toggle"><input id="edges" type="checkbox" checked> edges</label>
+        <label class="toggle"><input id="rotate" type="checkbox"> rotate</label>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="view"></canvas>
+        <div id="no-gl" class="no-gl" hidden>WebGL is not available in this
+          browser — the shapes cannot be drawn.</div>
+        <span class="hint">drag to turn · right-drag to pan · wheel to zoom ·
+          double-click to reset</span>
+      </div>
+      <div id="stats" class="muted"></div>
+      <div class="export-row">
+        <span class="small muted">Export at</span>
+        <label class="small"><input id="export-width" type="number" min="0.5"
+          max="200" step="0.5" value="8"> mm wide</label>
+        <button id="export-stl" type="button" class="chip">STL</button>
+        <button id="export-glb" type="button" class="chip">GLB</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card explain">
+    <h2>How the shapes are built</h2>
+    <p>No database holds these trade shapes, so each stone is <strong>generated
+      by functions</strong>. A stone is an <strong>outline</strong> — the girdle
+      seen from above: round, oval, pear, marquise, heart, cushion, octagon,
+      trillion… — crossed with a <strong>top</strong> and a
+      <strong>bottom</strong> half, joined by the girdle band.</p>
+    <table class="spec">
+      <tr><th>Half style</th><th>What it makes</th></tr>
+      <tr><td>Brilliant</td><td>crown: table, stars, bezels, upper girdles ·
+        pavilion: lower girdles and mains — the 57 classic facets on a round</td></tr>
+      <tr><td>Step</td><td>rows parallel to the outline — baguette, emerald,
+        square; a rectangular pavilion ends in a keel</td></tr>
+      <tr><td>Single, French</td><td>simpler crowns: one facet per main; a table
+        turned 45°</td></tr>
+      <tr><td>Rose</td><td>a dome of triangular facets — rose cuts, briolettes,
+        faceted beads</td></tr>
+      <tr><td>Smooth dome</td><td>cabochons, buff tops, beads, drops</td></tr>
+      <tr><td>Flat</td><td>tablets and disks, with a small bevel</td></tr>
+    </table>
+    <p>Every measure is relative to the width (= 1), like gemological
+      proportions: a crown height of 15 % is 0.15 × the width. A shape code is
+      only a <em>recipe</em> — an outline, a cut and a few overrides — so every
+      parameter stays adjustable. <span id="coverage"></span></p>
+  </section>
+</main>
+
+<footer>
+  <span class="muted">Gemstone Notation — 3D shapes · generated in the browser,
+    drawn with three.js · <a href="index.html">workspace</a></span>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/search.js"></script>
+<script src="assets/combo.js"></script>
+<script src="assets/shape3d.js"></script>
+<script src="assets/shape3d-recipes.js"></script>
+<script src="assets/vendor/three.js"></script>
+<script src="assets/shape3d-render.js"></script>
+<script src="assets/shape3d-page.js"></script>
+</body>
+</html>

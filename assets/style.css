@@ -137,3 +137,4 @@ footer { text-align: center; padding: 18px; border-top: 1px solid var(--line); }
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: 1px; color: var(--muted); background: var(--paper); }
 .combo-item.current { font-weight: 700; }
+.combo-none { color: var(--muted); font-style: italic; }

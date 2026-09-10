@@ -36,6 +36,7 @@
 
     function render(query) {
       const q = (query || '').trim();
+      const noneRow = '<div class="combo-item combo-none" data-i="-1">— none —</div>';
       if (!q && groupsOf) {
         // the full menu, grouped, exactly like a select would scroll
         visible = [];
@@ -48,12 +49,13 @@
             visible.push(row);
           }
         }
-        list.innerHTML = html;
+        list.innerHTML = noneRow + html;
       } else {
         visible = q ? S.search(rows, q) : rows.slice();
-        list.innerHTML = visible.map(itemHtml).join('');
+        list.innerHTML = (q ? '' : noneRow)
+          + visible.map(itemHtml).join('');
       }
-      list.hidden = visible.length === 0;
+      list.hidden = visible.length === 0 && q !== '';
       const currentIndex = current ? visible.indexOf(current) : -1;
       highlight(currentIndex >= 0 ? currentIndex : 0, currentIndex >= 0);
     }
@@ -102,7 +104,9 @@
     list.addEventListener('mousedown', (ev) => {
       ev.preventDefault();
       const item = ev.target.closest('.combo-item');
-      if (item) pick(visible[parseInt(item.dataset.i, 10)]);
+      if (!item) return;
+      const index = parseInt(item.dataset.i, 10);
+      pick(index < 0 ? null : visible[index]);
     });
 
     return { get: () => current };

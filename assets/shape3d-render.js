@@ -3,8 +3,9 @@
 // shading lit by a studio environment, a soft contact shadow, facet
 // edges as lines, orbit controls - drag to turn, right-drag to pan,
 // wheel or pinch to zoom, double-click to reset - and STL / GLB export at
-// a real size. Z is up: the table faces the sky. Neutral polished
-// material for now; the stone's colour and optics come later.
+// a real size. Z is up: the table faces the sky. Without a look the
+// material is a neutral polished one, for studying the shape; with one
+// (GemStoneLook) the stone takes its colour and family of material.
 (function (root) {
   'use strict';
   const THREE = root.THREE;
@@ -18,6 +19,68 @@
   };
   const direction = ({ yaw, pitch }) => new THREE.Vector3(
     Math.cos(pitch) * Math.cos(yaw), Math.cos(pitch) * Math.sin(yaw), Math.sin(pitch));
+
+  // The backdrop is painted in the scene, not in CSS: a transparent
+  // stone refracts what is behind it.
+  function backdrop() {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 256;
+    const g = canvas.getContext('2d');
+    const glow = g.createRadialGradient(128, 97, 0, 128, 97, 190);
+    glow.addColorStop(0, '#ffffff');
+    glow.addColorStop(0.68, '#ecece8');
+    glow.addColorStop(1, '#dcdcd7');
+    g.fillStyle = glow;
+    g.fillRect(0, 0, 256, 256);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }
+
+  // A GemStoneLook (or null for the neutral shape study) -> material.
+  // Transparent stones transmit and refract, absorbing their colour
+  // with depth; the rest are polished opaque, milky, pearly or metal.
+  function materialFor(look, depth) {
+    const common = {
+      // push the faces back a hair so the edge lines win the depth test
+      polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+    };
+    if (!look) {
+      // reflective enough that each facet catches the studio differently
+      return new THREE.MeshPhysicalMaterial(Object.assign(common, {
+        color: 0xa9b1bd, roughness: 0.12, metalness: 0.35,
+        clearcoat: 1, clearcoatRoughness: 0.05 }));
+    }
+    const color = new THREE.Color(look.color);
+    const pale = new THREE.Color(0xffffff).lerp(color, 0.35);
+    const haze = look.haze || 0;
+    const shimmer = look.iridescent
+      ? { iridescence: 0.6, iridescenceIOR: 1.3, iridescenceThicknessRange: [250, 650] } : {};
+    const settings = {
+      // white light through the stone's depth comes out about its colour
+      transparent: {
+        color: new THREE.Color(0xffffff).lerp(color, 0.15),
+        roughness: 0.02 + haze * 0.35, metalness: 0,
+        transmission: 1 - haze * 0.5, ior: look.ior, thickness: depth,
+        attenuationColor: color, attenuationDistance: depth * 1.1,
+        dispersion: Math.min(1, look.fire * 12), specularIntensity: 1,
+      },
+      translucent: {
+        color: pale, roughness: 0.3 + haze * 0.3, metalness: 0,
+        transmission: 0.6 - haze * 0.4, ior: look.ior, thickness: depth,
+        attenuationColor: color, attenuationDistance: depth * 0.6,
+        clearcoat: 0.6, clearcoatRoughness: 0.1,
+      },
+      opaque: { color, roughness: 0.3, clearcoat: 1, clearcoatRoughness: 0.04 },
+      pearl: {
+        color, roughness: 0.28, sheen: 1, sheenRoughness: 0.35,
+        sheenColor: new THREE.Color(0xffffff).lerp(color, 0.5),
+        clearcoat: 0.5, clearcoatRoughness: 0.2,
+      },
+      metal: { color, metalness: 1, roughness: 0.16 },
+    }[look.family];
+    return new THREE.MeshPhysicalMaterial(Object.assign(common, settings, shimmer));
+  }
 
   // canvas -> viewer, or null when three.js or WebGL is unavailable.
   // options.compact: a preview inside a page - it turns by itself and
@@ -33,12 +96,13 @@
       return null;
     }
     renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.9;
+    // neutral tone mapping keeps a stone's hue where ACES would shift it
+    renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     const scene = new THREE.Scene();
+    scene.background = backdrop();
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
     pmrem.dispose();
@@ -54,15 +118,10 @@
                                 autoRotate: true, autoRotateSpeed: 2 });
     }
 
-    const stone = new THREE.Mesh(new THREE.BufferGeometry(),
-      // reflective enough that each facet catches the studio differently
-      new THREE.MeshPhysicalMaterial({
-        color: 0xa9b1bd, roughness: 0.12, metalness: 0.35,
-        clearcoat: 1, clearcoatRoughness: 0.05,
-        // push the faces back a hair so the edge lines win the depth test
-        polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
-      }));
+    const stone = new THREE.Mesh(new THREE.BufferGeometry(), materialFor(null, 1));
     stone.castShadow = true;
+    let look = null;
+    let depth = 1;
     const edges = new THREE.LineSegments(new THREE.BufferGeometry(),
       new THREE.LineBasicMaterial({ color: 0x141418, transparent: true, opacity: 0.45 }));
 
@@ -118,6 +177,16 @@
       key.shadow.normalBias = r * 0.02;  // no self-shadow acne on the curves
       floor.position.set(center.x, center.y, min[2] - r * 0.002);
       floor.scale.setScalar(r * 8);
+      depth = Math.max(0.05, max[2] - min[2]);
+      applyLook();
+    }
+
+    function applyLook() {
+      stone.material.dispose();
+      stone.material = materialFor(look, depth);
+      // colour carries the facets: lighter lines; glass casts a lighter shadow
+      edges.material.opacity = look ? 0.22 : 0.45;
+      floor.material.opacity = look && look.family === 'transparent' ? 0.08 : 0.16;
       request();
     }
 
@@ -183,6 +252,7 @@
 
     return {
       setMesh,
+      setLook: (value) => { look = value || null; applyLook(); },
       view,
       render,
       exportModel,

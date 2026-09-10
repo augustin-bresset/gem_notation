@@ -13,6 +13,9 @@
   let shape = null;   // dictionary row, or null for a free design
   let recipe = null;  // the shape's resolved spec, or null without a model
   let spec = G3.resolve(R.specFor('RD'));
+  // stone, hue and grade codes for the colour; '' = not set
+  const material = { stone: '', hue: '', grade: '' };
+  const byCode = (rows, code) => rows.find((r) => r.code === code) || null;
 
   const format = (param, v) => {
     if (param.format === '%') return `${Math.round(v * 1000) / 10} %`;
@@ -73,8 +76,50 @@
     }
   }
 
+  function materialControls() {
+    const box = group('Colour');
+    const byName = (rows) => rows.slice().sort((a, b) => (a.name < b.name ? -1 : 1))
+      .map((r) => [r.code, `${r.name} (${r.code})`]);
+    const pick = (key) => (value) => { material[key] = value; applyMaterial(); syncUrl(); };
+    addSelect(box, 'Stone', [['', '— none: study the shape —']].concat(byName(D.stones)),
+      material.stone, pick('stone'));
+    addSelect(box, 'Hue', [['', "— the stone's usual —"]].concat(byName(D.hues)),
+      material.hue, pick('hue'));
+    addSelect(box, 'Grade', [['', '— the stone’s default —']]
+      .concat(D.grades.map((g) => [g.code, `${g.code} — ${g.name}`])), material.grade, pick('grade'));
+    const note = document.createElement('div');
+    note.id = 'look-note';
+    note.className = 'preview-look';
+    box.appendChild(note);
+  }
+
+  function applyMaterial() {
+    const stone = byCode(D.stones, material.stone);
+    const look = window.GemStoneLook.lookFor(stone, byCode(D.grades, material.grade),
+                                             byCode(D.hues, material.hue), D);
+    if (viewer) viewer.setLook(look);
+    const note = $('look-note');
+    if (!note) return;
+    note.innerHTML = look
+      ? `<span class="swatch" style="background:${look.color}"></span>${look.label}`
+      : stone ? 'No colour for this stone yet — neutral material.' : '';
+  }
+
+  function syncUrl() {
+    const params = new URLSearchParams();
+    if (shape) params.set('shape', shape.code);
+    for (const key of ['stone', 'grade', 'hue']) {
+      if (material[key]) params.set(key, material[key]);
+    }
+    const query = params.toString();
+    try {
+      window.history.replaceState(null, '', query ? `?${query}` : window.location.pathname);
+    } catch (e) { /* file:// */ }
+  }
+
   function renderControls() {
     $('controls').innerHTML = '';
+    materialControls();
     const def = G3.OUTLINES[spec.outline];
     const P = G3.PARAMS;
     const outline = group('Outline');
@@ -143,7 +188,10 @@
   }
 
   function changed(structural) {
-    if (structural) renderControls();
+    if (structural) {
+      renderControls();
+      applyMaterial();
+    }
     rebuild();
     refreshNote();
   }
@@ -153,8 +201,7 @@
     const partial = row && R.specFor(row.code);
     recipe = partial ? G3.resolve(partial) : null;
     if (partial) spec = G3.resolve(partial);
-    const url = row ? `?shape=${row.code}` : window.location.pathname;
-    try { window.history.replaceState(null, '', url); } catch (e) { /* file:// */ }
+    syncUrl();
     changed(true);
   }
 
@@ -208,7 +255,12 @@
     + 'model; the rest are house references, carvings, mixes and strands.';
 
   // ── Start ──────────────────────────────────────────────────────────
-  const wanted = new URLSearchParams(window.location.search).get('shape');
+  const query = new URLSearchParams(window.location.search);
+  for (const [key, rows] of [['stone', D.stones], ['hue', D.hues], ['grade', D.grades]]) {
+    const code = (query.get(key) || '').toUpperCase();
+    if (byCode(rows, code)) material[key] = code;
+  }
+  const wanted = query.get('shape');
   const start = D.shapes.find((s) => s.code === (wanted || 'RD').toUpperCase())
     || D.shapes.find((s) => s.code === 'RD');
   picker.set(start);

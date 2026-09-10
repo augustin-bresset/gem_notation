@@ -58,6 +58,7 @@ assets/shape3d.js          the 3D shape generator (browser + node, no deps)
 assets/shape3d-recipes.js  shape code -> outline + cut + overrides
 assets/shape3d-render.js   the 3D viewer and STL / GLB export (three.js)
 assets/shape3d-page.js     3D page behaviour
+assets/stone-look.js       colour and material of each stone and hue
 assets/vendor/three.js     three.js + addons as one script (generated)
 data/*.csv                 source of truth for the dictionaries
 tools/build_data.py        regenerates assets/data.js from data/*.csv
@@ -94,7 +95,16 @@ is only a recipe in `assets/shape3d-recipes.js` — an outline, a cut preset
 adjustable on the page; "Copy parameters" gives the JSON of a design,
 ready to paste back as a recipe. Shapes without a recipe (house
 references A120…, carvings, mixes, strands) show as "no model yet".
-The mesh is shape only; materials and optics are a later step.
+
+**Colour** (`assets/stone-look.js`) is a first approximation: every
+stone has its own colour and a material family (transparent,
+translucent, opaque, pearl, metal) with its refractive index and
+dispersion; every hue is a colour, a haze (Milky, Cloudy, White I1…) or
+nothing (an origin, a treatment). The colour comes from the chosen hue,
+else the stone's usual hue, else its implied hue, else the stone; grades
+1–4 set its depth, 6–7 add haze. Transparent stones refract and absorb
+their colour with depth, but light does not yet bounce inside them — no
+brilliance yet.
 
 The page exports the stone at a chosen width in millimetres: STL (mm,
 Z up) for CAD and printing, GLB (metres, Y up) for 3D viewers.

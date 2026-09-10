@@ -26,7 +26,7 @@
     if (!preview.loading) {
       // a self-contained copy of the page may hand over its own loading
       preview.loading = window.GemShape3DReady || ['vendor/three.js', 'shape3d.js', 'shape3d-recipes.js',
-                         'shape3d-render.js']
+                         'stone-look.js', 'shape3d-render.js']
         .reduce((chain, file) => chain.then(() => new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = ASSETS + file;
@@ -45,7 +45,12 @@
     const status = $('preview-status');
     const stage = $('preview-stage');
     $('preview-name').textContent = `${shape.code} — ${shape.name}`;
-    $('preview-adjust').href = `shape3d.html?shape=${shape.code}`;
+    const params = new URLSearchParams({ shape: shape.code });
+    for (const key of ['stone', 'grade', 'hue']) {
+      if (selection[key]) params.set(key, selection[key].code);
+    }
+    $('preview-adjust').href = `shape3d.html?${params}`;
+    $('preview-look').hidden = true;
     try {
       await load3d();
     } catch (e) {
@@ -70,7 +75,19 @@
     } else if (!recipe) {
       status.textContent = 'No 3D model for this shape yet.';
     } else {
-      preview.viewer.setMesh(G3.toBuffers(G3.build(R.specFor(shape.code))));
+      if (preview.shown !== shape.code) {
+        preview.viewer.setMesh(G3.toBuffers(G3.build(R.specFor(shape.code))));
+        preview.shown = shape.code;
+      }
+      // colour and material from the stone, hue and grade picked above
+      const look = window.GemStoneLook.lookFor(selection.stone, selection.grade,
+                                               selection.hue, D);
+      preview.viewer.setLook(look);
+      $('preview-look').hidden = !look;
+      if (look) {
+        $('preview-look').innerHTML =
+          `<span class="swatch" style="background:${look.color}"></span>${look.label}`;
+      }
     }
   }
 

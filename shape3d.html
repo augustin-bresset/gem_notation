@@ -63,8 +63,8 @@
 <header>
   <h1>3D Shapes</h1>
   <p class="tagline">Every stone is generated from parameters — an outline crossed
-    with a top and a bottom profile. Shape only for now; colour and optics come
-    later.</p>
+    with a top and a bottom profile, in the colour of its stone, hue and
+    grade.</p>
   <a class="header-link" href="index.html">← back to the workspace</a>
 </header>
 
@@ -138,6 +138,14 @@
       proportions: a crown height of 15 % is 0.15 × the width. A shape code is
       only a <em>recipe</em> — an outline, a cut and a few overrides — so every
       parameter stays adjustable. <span id="coverage"></span></p>
+    <p><strong>Colour is a first approximation.</strong> It comes from the hue
+      when the hue is a colour — the chosen one, else the stone's usual or
+      implied hue — and from the stone otherwise; grades 1–4 set its depth,
+      and hues such as Milky or White I2 make it hazier. Transparent stones
+      refract and absorb their colour with depth; opaque, milky, pearly and
+      metal ones each have their own material. Light does not yet bounce
+      inside a stone, so a cut stone shows its colour but not its
+      brilliance.</p>
   </section>
 </main>
 
@@ -151,6 +159,7 @@
 <script src="assets/combo.js"></script>
 <script src="assets/shape3d.js"></script>
 <script src="assets/shape3d-recipes.js"></script>
+<script src="assets/stone-look.js"></script>
 <script src="assets/vendor/three.js"></script>
 <script src="assets/shape3d-render.js"></script>
 <script src="assets/shape3d-page.js"></script>

@@ -157,3 +157,7 @@ footer { text-align: center; padding: 18px; border-top: 1px solid var(--line); }
 .preview-caption { display: flex; justify-content: space-between; align-items: baseline;
   gap: 12px; margin-top: 6px; font-size: 0.85rem; }
 .preview-caption a { color: var(--ink); white-space: nowrap; }
+.preview-look { display: flex; align-items: center; gap: 7px; margin-top: 3px;
+  font-size: 0.85rem; color: var(--muted); }
+.swatch { flex-shrink: 0; display: inline-block; width: 12px; height: 12px;
+  border-radius: 50%; border: 1px solid rgba(0,0,0,0.18); }

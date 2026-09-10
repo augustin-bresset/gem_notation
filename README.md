@@ -11,14 +11,14 @@ engine, so you can compose a code from a stone's components, read a code
 back into its components, build a product colour code, and browse the
 dictionaries.
 
-## The token grammar: `PP[G][BB][EE]`
+## The token grammar: `PP[G][HH][SS]`
 
 | Block | Width | Characters | Meaning |
 |-------|-------|------------|---------|
 | `PP`  | 2     | letters | stone identity |
 | `G`   | 1     | digit | quality grade |
-| `BB`  | 2     | digit **then** letter | hue |
-| `EE`  | 2     | letters | cutting shape |
+| `HH`  | 2     | digit **then** letter | hue |
+| `SS`  | 2     | letters | cutting shape |
 
 Examples: `SA` (sapphire, everything default), `SA2` (grade 2), `SA1C`
 (hue Ceylon), `SA21CPS` (grade 2, Ceylon, pear).

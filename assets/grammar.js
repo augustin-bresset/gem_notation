@@ -1,5 +1,5 @@
 // Gemstone Notation - grammar engine.
-// Token grammar PP[G][BB][EE]: stone (2 letters), grade (1 digit),
+// Token grammar PP[G][HH][SS]: stone (2 letters), grade (1 digit),
 // hue (digit + letter), shape (2 letters); blocks omitted on the stone's
 // defaults; the widths and character classes make every token parse
 // without separators. Mirrors the reference implementation of the
@@ -54,7 +54,7 @@
     }
     const splits = splitRest(text.slice(2));
     if (splits.length !== 1) {
-      result.problems.push(`'${text}': not a valid PP[G][BB][EE] token`);
+      result.problems.push(`'${text}': not a valid PP[G][HH][SS] token`);
       return result;
     }
     const [gradeCode, hueCode, shapeCode] = splits[0];

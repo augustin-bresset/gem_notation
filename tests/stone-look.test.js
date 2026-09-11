@@ -125,6 +125,18 @@ test('a reference shape suits the material and has a model, for every stone', ()
   }
 });
 
+test('the browser-only modules load (no syntax error hides in them)', () => {
+  // they only reach for window / THREE when called, so node can parse them
+  for (const file of ['gem-optics.js', 'shape3d-render.js', 'combo.js']) {
+    assert.doesNotThrow(() => require(`../assets/${file}`), file);
+  }
+  const optics = {};
+  require('vm').runInNewContext(require('fs').readFileSync(
+    require('path').join(__dirname, '../assets/gem-optics.js'), 'utf8'), optics);
+  assert.equal(typeof optics.GemOptics.create, 'function');
+  assert.equal(typeof optics.GemOptics.createSurface, 'function');
+});
+
 test('no stone, no look', () => {
   assert.equal(LOOK.lookFor(null, null, hue('1Y'), DATA), null);
   assert.equal(LOOK.lookFor(stone('MS'), null, null, DATA), null);

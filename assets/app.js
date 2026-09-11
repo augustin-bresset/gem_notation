@@ -21,7 +21,25 @@
   // shape is given (an omitted block may be the default or simply not
   // given: nothing is assumed). three.js and the generator load with the
   // first preview only; every parameter stays adjustable on shape3d.html.
-  const preview = { viewer: null, loading: null, token: 0, shown: null };
+  const preview = { viewer: null, loading: null, token: 0, shown: null, spin: true };
+
+  // Turning, the preview redraws 30 times a second - work for the
+  // graphics card. A click pauses it (it still turns by hand), and the
+  // choice is remembered for the next visits.
+  const SPIN_KEY = 'gem-notation.preview-spin';
+  try { preview.spin = localStorage.getItem(SPIN_KEY) !== 'off'; } catch (e) { /* no storage */ }
+
+  function setSpin(on) {
+    preview.spin = on;
+    if (preview.viewer) preview.viewer.setAutoRotate(on);
+    const button = $('preview-spin');
+    button.setAttribute('aria-pressed', String(!on));
+    button.querySelector('.spin-label').textContent = on ? 'Pause rotation' : 'Resume rotation';
+    button.querySelector('.spin-hint').textContent =
+      on ? 'lighter on your computer' : 'paused — drag to turn';
+    try { localStorage.setItem(SPIN_KEY, on ? 'on' : 'off'); } catch (e) { /* no storage */ }
+  }
+  $('preview-spin').addEventListener('click', () => setSpin(!preview.spin));
 
   function load3d() {
     if (!preview.loading) {
@@ -78,6 +96,7 @@
     $('preview-adjust').href = `shape3d.html?${params}`;
     if (!preview.viewer) {
       preview.viewer = window.GemRender3D.create($('preview-canvas'), { compact: true });
+      if (preview.viewer) setSpin(preview.spin);
     }
     stage.classList.toggle('no-model', !preview.viewer);
     status.hidden = Boolean(preview.viewer);

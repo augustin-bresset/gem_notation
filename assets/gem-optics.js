@@ -19,9 +19,13 @@
 (function (root) {
   'use strict';
 
+  // centroid: with antialiasing, a pixel on the edge between two
+  // triangles is shaded at its centre - maybe outside the triangle -
+  // and a position extrapolated there lies outside the stone: the ray
+  // would start from outside, drawing a line along every edge
   const VERTEX = `
-varying vec3 vPos;
-varying vec3 vNormal;
+centroid varying vec3 vPos;
+centroid varying vec3 vNormal;
 void main() {
   vec4 world = modelMatrix * vec4(position, 1.0);
   vPos = world.xyz;
@@ -40,8 +44,8 @@ uniform sampler2D normalTex;`;
 
   const STUDIO = `
 uniform samplerCube envMap;
-varying vec3 vPos;
-varying vec3 vNormal;
+centroid varying vec3 vPos;
+centroid varying vec3 vNormal;
 
 // the studio around the stone, its ceiling up (+z) in the stone's world;
 // lod 0 is sharp, higher levels blur it into soft light
@@ -62,8 +66,9 @@ uniform vec3 iors;        // refractive index for red, green, blue
 uniform float haze;
 uniform vec3 hazeColor;
 
-// light gathered by a ray travelling inside the stone
-vec3 inside(vec3 origin, vec3 dir, float n) {
+// light gathered by a ray travelling inside the stone; wall is the
+// outward normal of the surface the ray starts from
+vec3 inside(vec3 origin, vec3 dir, float n, vec3 wall) {
   vec3 carried = vec3(1.0);
   vec3 light = vec3(0.0);
   for (int i = 0; i < BOUNCES; i++) {
@@ -77,6 +82,10 @@ vec3 inside(vec3 origin, vec3 dir, float n) {
     }
     carried *= exp(-sigma * dist);
     vec3 hit = origin + dir * dist;
+    // the triangle's own normal for stepping off it, the smoothed one
+    // for bending the light
+    wall = normalize(faceNormal);
+    if (dot(wall, dir) < 0.0) wall = -wall;
     vec3 nrm = normalize(textureSampleBarycoord(normalTex, bary, faceIndices.xyz).xyz);
     if (dot(nrm, dir) < 0.0) nrm = -nrm;
     vec3 leaving = refract(dir, -nrm, n);
@@ -85,8 +94,10 @@ vec3 inside(vec3 origin, vec3 dir, float n) {
       light += carried * (1.0 - f) * studio(leaving, 0.0);
       carried *= f;
     }
+    // what is left is too faint to matter: stop bouncing
+    if (max(carried.r, max(carried.g, carried.b)) < 0.02) return light;
     dir = reflect(dir, -nrm);
-    origin = hit - nrm * 1e-4;
+    origin = hit - wall * 1e-4;
   }
   return light + carried * studio(dir, 0.0);
 }
@@ -98,11 +109,11 @@ void main() {
   vec3 origin = vPos - n * 1e-4;
 #ifdef DISPERSION
   vec3 through = vec3(
-    inside(origin, refract(view, n, 1.0 / iors.r), iors.r).r,
-    inside(origin, refract(view, n, 1.0 / iors.g), iors.g).g,
-    inside(origin, refract(view, n, 1.0 / iors.b), iors.b).b);
+    inside(origin, refract(view, n, 1.0 / iors.r), iors.r, n).r,
+    inside(origin, refract(view, n, 1.0 / iors.g), iors.g, n).g,
+    inside(origin, refract(view, n, 1.0 / iors.b), iors.b, n).b);
 #else
-  vec3 through = inside(origin, refract(view, n, 1.0 / iors.g), iors.g);
+  vec3 through = inside(origin, refract(view, n, 1.0 / iors.g), iors.g, n);
 #endif
   float f = fresnel(dot(-view, n), iors.g);
   vec3 color = f * studio(reflect(view, n), 0.0) + (1.0 - f) * through;
@@ -136,12 +147,12 @@ float vnoise(vec3 p) {
 float fbm(vec3 p) {
   float sum = 0.0;
   float amp = 0.5;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 4; i++) {
     sum += amp * vnoise(p);
     p = p * 2.03 + 17.1;
     amp *= 0.5;
   }
-  return sum / 0.97;
+  return sum / 0.9375;
 }
 // distance to the nearest random point, and that point's cell
 vec4 worley(vec3 p) {
@@ -308,17 +319,23 @@ void main() {
       .map((c) => -Math.log(Math.max(c, 0.01)) / path));
   }
 
-  // BVH and normal texture of a geometry, as shader uniforms.
-  function traceUniforms(THREE, geometry, material) {
-    const bvh = new THREE.MeshBVHUniformStruct();
-    bvh.updateFrom(new THREE.MeshBVH(geometry));
-    const normals = new THREE.FloatVertexAttributeTexture();
-    normals.updateFrom(geometry.attributes.normal);
-    material.addEventListener('dispose', () => {
-      bvh.dispose();
-      normals.dispose();
-    });
-    return { bvh: { value: bvh }, normalTex: { value: normals } };
+  // BVH and normal texture of a geometry, as shader uniforms - built once
+  // per geometry, shared by every material drawn on it (a new colour
+  // does not rebuild them), released with the geometry.
+  function traceUniforms(THREE, geometry) {
+    let trace = geometry.userData.gemTrace;
+    if (!trace) {
+      const bvh = new THREE.MeshBVHUniformStruct();
+      bvh.updateFrom(new THREE.MeshBVH(geometry));
+      const normals = new THREE.FloatVertexAttributeTexture();
+      normals.updateFrom(geometry.attributes.normal);
+      trace = geometry.userData.gemTrace = { bvh, normals };
+      geometry.addEventListener('dispose', () => {
+        bvh.dispose();
+        normals.dispose();
+      });
+    }
+    return { bvh: { value: trace.bvh }, normalTex: { value: trace.normals } };
   }
 
   const common = {
@@ -342,7 +359,7 @@ void main() {
                              fire >= 0.03 ? { DISPERSION: '' } : {}),
       fragmentShader: bvhHead(THREE.BVHShaderGLSL) + STUDIO + TRANSPARENT,
     }));
-    material.uniforms = Object.assign(traceUniforms(THREE, geometry, material), {
+    material.uniforms = Object.assign(traceUniforms(THREE, geometry), {
       envMap: { value: options.envMap },
       sigma: { value: absorption(THREE, color, options.depth * 2.2) },
       iors: { value: new THREE.Vector3(look.ior - fire * 0.35, look.ior, look.ior + fire * 0.45) },
@@ -368,7 +385,7 @@ void main() {
         + STUDIO + NOISE + SURFACE,
     }));
     const color = linear(THREE, look.color);
-    material.uniforms = Object.assign(translucent ? traceUniforms(THREE, geometry, material) : {}, {
+    material.uniforms = Object.assign(translucent ? traceUniforms(THREE, geometry) : {}, {
       envMap: { value: options.envMap },
       albedo: { value: color },
       second: { value: linear(THREE, texture.second || look.color) },

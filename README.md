@@ -132,6 +132,19 @@ model yet — the stone turns on a reference shape suited to its material
 (round brilliant, oval cabochon, ball, disk…), said as much under the
 preview.
 
+**Keeping it light** — the picture at rest is never degraded:
+- while the stone is turned or zoomed it is drawn at half resolution (a
+  quarter of the pixels to trace), then once more in full as it rests;
+- a ray stops bouncing once 98 % of its light is gone;
+- the preview turns by itself at 30 frames a second, and stops when
+  scrolled out of sight;
+- a new stone's shader compiles in the background (the previous stone
+  stays on screen, the page does not freeze); the facet search structure
+  is built once per shape, not once per colour;
+- curved stones use fewer triangles (smooth normals keep them round) and
+  fewer bounces - light trapped along a curved wall adds nothing new -
+  while faceted stones keep every bounce their brilliance is made of.
+
 The page exports the stone at a chosen width in millimetres: STL (mm,
 Z up) for CAD and printing, GLB (metres, Y up) for 3D viewers.
 

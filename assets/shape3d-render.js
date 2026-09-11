@@ -85,9 +85,13 @@
   // canvas -> viewer, or null when three.js or WebGL is unavailable.
   // options.compact: a preview inside a page - it turns by itself and
   // leaves the wheel to the page (no zoom, no pan).
+  // options.precompile (default true): build a new stone's shader in the
+  // background and keep showing the previous one meanwhile, instead of
+  // freezing the page; false applies it at once (still pictures, tests).
   function create(canvas, options) {
     if (!THREE) return null;
     const compact = Boolean(options && options.compact);
+    const precompile = !(options && options.precompile === false);
     let renderer;
     try {
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true,
@@ -95,7 +99,8 @@
     } catch (e) {
       return null;
     }
-    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    const fullRatio = Math.min(2, window.devicePixelRatio || 1);
+    renderer.setPixelRatio(fullRatio);
     // neutral tone mapping keeps a stone's hue where ACES would shift it
     renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.shadowMap.enabled = true;
@@ -152,7 +157,7 @@
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position', new THREE.BufferAttribute(data.positions, 3));
       geometry.setAttribute('normal', new THREE.BufferAttribute(data.normals, 3));
-      stone.geometry.dispose();
+      // the old geometry goes once no material drawn on it is shown
       stone.geometry = geometry;
       const lines = new THREE.BufferGeometry();
       lines.setAttribute('position', new THREE.BufferAttribute(data.edges, 3));
@@ -186,26 +191,56 @@
       floor.position.set(center.x, center.y, min[2] - r * 0.002);
       floor.scale.setScalar(r * 8);
       depth = Math.max(0.05, max[2] - min[2]);
-      applyLook();
+      smoothShape = (data.stats && data.stats.smooth) > 0.5;
+      return applyLook();
     }
 
+    let lookToken = 0;
+    let shownGeometry = null;   // the geometry the shown material was built for
+    // In a curved stone light trapped by total reflection keeps running
+    // along the wall, adding nothing new: fewer bounces there; a faceted
+    // stone keeps them all - its brilliance is made of them.
+    let smoothShape = false;
+    const bounces = () => (smoothShape ? (compact ? 3 : 4) : (compact ? 4 : 7));
+
+    // Build the stone's material and put it on - once compiled, when
+    // precompiling. Returns a promise settled when it is shown.
     function applyLook() {
-      stone.material.dispose();
+      const token = ++lookToken;
+      const built = stone.geometry;
       // light traced inside a transparent stone, texture and phenomena on
       // an opaque or translucent one - else the physically based
       // approximation (pearls, metals, "light rays" off)
       let special = null;
       if (optics && root.GemOptics && radius && look) {
-        const options = { envMap: studio.texture, depth, bounces: compact ? 4 : 7 };
+        const settings = { envMap: studio.texture, depth, bounces: bounces() };
         special = look.family === 'transparent'
-          ? root.GemOptics.create(THREE, stone.geometry, look, options)
-          : root.GemOptics.createSurface(THREE, stone.geometry, look, options);
+          ? root.GemOptics.create(THREE, built, look, settings)
+          : root.GemOptics.createSurface(THREE, built, look, settings);
       }
-      stone.material = special || materialFor(look, depth);
-      // colour carries the facets: lighter lines; glass casts a lighter shadow
-      edges.material.opacity = look ? 0.22 : 0.45;
-      floor.material.opacity = look && look.family === 'transparent' ? 0.08 : 0.16;
-      request();
+      const next = special || materialFor(look, depth);
+      const put = () => {
+        if (token !== lookToken) {
+          // overtaken by a newer look or mesh: drop what was built
+          next.dispose();
+          if (built !== stone.geometry && built !== shownGeometry) built.dispose();
+          return;
+        }
+        const old = stone.material;
+        stone.material = next;
+        old.dispose();
+        if (shownGeometry && shownGeometry !== built) shownGeometry.dispose();
+        shownGeometry = built;
+        // colour carries the facets: lighter lines; glass casts a lighter shadow
+        edges.material.opacity = look ? 0.22 : 0.45;
+        floor.material.opacity = look && look.family === 'transparent' ? 0.08 : 0.16;
+        request();
+      };
+      if (!precompile) {
+        put();
+        return Promise.resolve();
+      }
+      return renderer.compileAsync(new THREE.Mesh(built, next), camera, scene).then(put, put);
     }
 
     function view(name) {
@@ -216,7 +251,12 @@
       request();
     }
 
-    function render() {
+    // While the stone is being turned or zoomed (and a moment after), it
+    // is drawn at half resolution - a quarter of the pixels to trace -
+    // then once more at full resolution as soon as it rests.
+    function draw(lowRes) {
+      const ratio = lowRes ? Math.max(0.5, fullRatio / 2) : fullRatio;
+      if (renderer.getPixelRatio() !== ratio) renderer.setPixelRatio(ratio);
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       const size = renderer.getSize(new THREE.Vector2());
@@ -225,20 +265,49 @@
         camera.aspect = w / Math.max(1, h);
         camera.updateProjectionMatrix();
       }
-      controls.update();
       renderer.render(scene, camera);
     }
 
+    // a still picture, at once and at full resolution
+    function render() {
+      controls.update(0);
+      draw(false);
+    }
+
     let frame = 0;
-    let onScreen = true;  // no spinning for nobody when scrolled away
-    function tick() {
+    let lastTick = 0;
+    let onScreen = true;
+    let interacting = false;
+    let settledAt = -Infinity;   // when the last drag or zoom ended
+    const SETTLE = 350;          // ms of half resolution after it
+
+    function tick(time) {
       frame = 0;
-      const moving = controls.update();
-      render();
-      if (moving || (controls.autoRotate && onScreen)) request();
+      const lowRes = interacting || time - settledAt < SETTLE;
+      if (!lowRes && controls.autoRotate && !onScreen) {
+        lastTick = 0;            // scrolled away: stop turning for nobody
+        return;
+      }
+      const spinning = controls.autoRotate && !lowRes;
+      if (spinning && lastTick && time - lastTick < 1000 / 30 - 4) {
+        request();               // turning by itself, 30 frames a second are plenty
+        return;
+      }
+      const dt = lastTick ? Math.min(0.1, (time - lastTick) / 1000) : 0;
+      lastTick = time;
+      const moving = controls.update(dt);
+      draw(lowRes);
+      if (moving || lowRes || spinning) request();
+      else lastTick = 0;
     }
     function request() { if (!frame) frame = requestAnimationFrame(tick); }
     controls.addEventListener('change', request);
+    controls.addEventListener('start', () => { interacting = true; request(); });
+    controls.addEventListener('end', () => {
+      interacting = false;
+      settledAt = performance.now();
+      request();
+    });
     canvas.addEventListener('dblclick', () => view('three'));
     if (window.ResizeObserver) new ResizeObserver(request).observe(canvas);
     if (window.IntersectionObserver) {
@@ -270,8 +339,8 @@
 
     return {
       setMesh,
-      setLook: (value) => { look = value || null; applyLook(); },
-      setOptics: (on) => { optics = Boolean(on); applyLook(); },
+      setLook: (value) => { look = value || null; return applyLook(); },
+      setOptics: (on) => { optics = Boolean(on); return applyLook(); },
       view,
       render,
       exportModel,

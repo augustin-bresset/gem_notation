@@ -193,7 +193,10 @@ test('a pumpkin keeps its lobes up the dome', () => {
   // the tip rounding must not iron out an outline whose lobes are wanted
   const mesh = G3.build(specFor('PU'));
   const top = Math.max(...mesh.vertices.map((v) => v[2]));
-  const band = mesh.vertices.filter((v) => Math.abs(v[2] - top * 0.6) < top * 0.04);
+  // the ring of vertices nearest to 60 % of the height
+  const level = mesh.vertices.map((v) => v[2]).filter((z) => z > 0)
+    .reduce((best, z) => (Math.abs(z - top * 0.6) < Math.abs(best - top * 0.6) ? z : best));
+  const band = mesh.vertices.filter((v) => Math.abs(v[2] - level) < 1e-9);
   const radii = band.map((v) => Math.hypot(v[0], v[1]));
   assert.ok(band.length > 20, 'a ring near 60 % height');
   assert.ok(Math.max(...radii) / Math.min(...radii) > 1.05, 'lobes still visible');

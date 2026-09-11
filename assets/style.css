@@ -157,6 +157,13 @@ footer { text-align: center; padding: 18px; border-top: 1px solid var(--line); }
 .preview-caption { display: flex; justify-content: space-between; align-items: baseline;
   gap: 12px; margin-top: 6px; font-size: 0.85rem; }
 .preview-caption a { color: var(--ink); white-space: nowrap; }
+.spin-chip { position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column;
+  align-items: flex-end; gap: 1px; padding: 4px 9px; font-size: 0.75rem; line-height: 1.25;
+  color: var(--ink); background: rgba(255, 255, 255, 0.82); border: 1px solid var(--line);
+  border-radius: 6px; cursor: pointer; }
+.spin-chip:hover { background: #fff; }
+.spin-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.spin-hint { font-size: 0.68rem; color: var(--muted); }
 .preview-look { display: flex; align-items: center; gap: 7px; margin-top: 3px;
   font-size: 0.85rem; color: var(--muted); }
 .swatch { flex-shrink: 0; display: inline-block; width: 12px; height: 12px;

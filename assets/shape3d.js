@@ -592,7 +592,7 @@
     // outline with height 0.5), more is fuller, less is pointier. The
     // rings round off as they rise, so a pear's tip or a square's corner
     // softens toward the top instead of ridging up to the apex.
-    const rows = 18;
+    const rows = 12;
     const e = clamp(p.fullness, 0.5, 8);
     const outline = range(H.M).map((j) => {
       const q = H.point(j / H.M);
@@ -819,7 +819,9 @@
     const styles = [spec.top.style, spec.bottom.style];
     const required = outline.corners
       .concat(styles.includes('french') ? odd(4) : []);
-    const M = girdleSamples(n, required, styles.includes('dome') ? 96 : 48);
+    // smooth normals make 64 samples round to the eye (a circle drawn
+    // with 64 is off by a thousandth of its radius)
+    const M = girdleSamples(n, required, styles.includes('dome') ? 64 : 48);
     const P = range(M).map((j) => outline.point(j / M));
     const C = centroid(P);
     const g = spec.girdle / 2;
@@ -871,8 +873,8 @@
 
   function buildDonut(mesh, outline, spec) {
     // a tube swept around the outline, elliptic cross-section
-    const M = girdleSamples(spec.symmetry, outline.corners, 96);
-    const Q = 28;
+    const M = girdleSamples(spec.symmetry, outline.corners, 64);
+    const Q = 20;
     const P = range(M).map((j) => outline.point(j / M));
     const C = centroid(P);
     const hole = clamp(spec.hole, 0.02, 0.95);
@@ -1007,9 +1009,11 @@
     const push = (p, n) => { positions.push(p[0], p[1], p[2]); normals.push(n[0], n[1], n[2]); };
 
     let facets = 0;
+    let smoothTriangles = 0;
     faces.forEach((f, fi) => {
       if (info[fi].area < 1e-12) return;
       if (!f.smooth) facets += 1;
+      else smoothTriangles += f.v.length <= 4 ? f.v.length - 2 : f.v.length;
       const corners = f.v.map((v) => [vertices[v], cornerNormal(fi, v)]);
       if (corners.length <= 4) {
         for (let i = 1; i + 1 < corners.length; i++) {
@@ -1062,8 +1066,10 @@
       normals: new Float32Array(normals),
       edges: new Float32Array(edges),
       bounds: { min, max },
+      // smooth: share of the triangles on curved (smooth-shaded) faces
       stats: { facets, faces: faces.length, vertices: vertices.length,
-               triangles: positions.length / 9 },
+               triangles: positions.length / 9,
+               smooth: smoothTriangles / Math.max(1, positions.length / 9) },
     };
   }
 

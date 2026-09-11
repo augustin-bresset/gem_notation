@@ -132,9 +132,8 @@ model yet — the stone turns on a reference shape suited to its material
 (round brilliant, oval cabochon, ball, disk…), said as much under the
 preview.
 
-**Keeping it light** — the picture at rest is never degraded:
-- while the stone is turned or zoomed it is drawn at half resolution (a
-  quarter of the pixels to trace), then once more in full as it rests;
+**Keeping it light** — without degrading the picture, still or moving
+(the stone stays sharp while it is turned by hand):
 - a ray stops bouncing once 98 % of its light is gone;
 - the preview turns by itself at 30 frames a second, and stops when
   scrolled out of sight;

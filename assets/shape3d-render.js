@@ -99,8 +99,7 @@
     } catch (e) {
       return null;
     }
-    const fullRatio = Math.min(2, window.devicePixelRatio || 1);
-    renderer.setPixelRatio(fullRatio);
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
     // neutral tone mapping keeps a stone's hue where ACES would shift it
     renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.shadowMap.enabled = true;
@@ -251,12 +250,8 @@
       request();
     }
 
-    // While the stone is being turned or zoomed (and a moment after), it
-    // is drawn at half resolution - a quarter of the pixels to trace -
-    // then once more at full resolution as soon as it rests.
-    function draw(lowRes) {
-      const ratio = lowRes ? Math.max(0.5, fullRatio / 2) : fullRatio;
-      if (renderer.getPixelRatio() !== ratio) renderer.setPixelRatio(ratio);
+    // always at full resolution: a stone turned by hand stays sharp
+    function draw() {
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       const size = renderer.getSize(new THREE.Vector2());
@@ -268,27 +263,24 @@
       renderer.render(scene, camera);
     }
 
-    // a still picture, at once and at full resolution
+    // a still picture, at once
     function render() {
       controls.update(0);
-      draw(false);
+      draw();
     }
 
     let frame = 0;
     let lastTick = 0;
     let onScreen = true;
-    let interacting = false;
-    let settledAt = -Infinity;   // when the last drag or zoom ended
-    const SETTLE = 350;          // ms of half resolution after it
+    let interacting = false;     // a drag or a zoom in progress
 
     function tick(time) {
       frame = 0;
-      const lowRes = interacting || time - settledAt < SETTLE;
-      if (!lowRes && controls.autoRotate && !onScreen) {
+      if (!interacting && controls.autoRotate && !onScreen) {
         lastTick = 0;            // scrolled away: stop turning for nobody
         return;
       }
-      const spinning = controls.autoRotate && !lowRes;
+      const spinning = controls.autoRotate && !interacting;
       if (spinning && lastTick && time - lastTick < 1000 / 30 - 4) {
         request();               // turning by itself, 30 frames a second are plenty
         return;
@@ -296,18 +288,14 @@
       const dt = lastTick ? Math.min(0.1, (time - lastTick) / 1000) : 0;
       lastTick = time;
       const moving = controls.update(dt);
-      draw(lowRes);
-      if (moving || lowRes || spinning) request();
+      draw();
+      if (moving || interacting || spinning) request();
       else lastTick = 0;
     }
     function request() { if (!frame) frame = requestAnimationFrame(tick); }
     controls.addEventListener('change', request);
     controls.addEventListener('start', () => { interacting = true; request(); });
-    controls.addEventListener('end', () => {
-      interacting = false;
-      settledAt = performance.now();
-      request();
-    });
+    controls.addEventListener('end', () => { interacting = false; request(); });
     canvas.addEventListener('dblclick', () => view('three'));
     if (window.ResizeObserver) new ResizeObserver(request).observe(canvas);
     if (window.IntersectionObserver) {

@@ -107,9 +107,11 @@
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(room, 0.04).texture;
     pmrem.dispose();
-    // the same studio as a sharp cube map: what light traced through a
-    // transparent stone sees (GemOptics)
-    const studio = new THREE.WebGLCubeRenderTarget(256, { type: THREE.HalfFloatType });
+    // the same studio as a cube map, sharp at level 0 and blurred down its
+    // mipmaps: what the stone shaders (GemOptics) see and are lit by
+    const studio = new THREE.WebGLCubeRenderTarget(256, {
+      type: THREE.HalfFloatType, generateMipmaps: true,
+      minFilter: THREE.LinearMipmapLinearFilter });
     new THREE.CubeCamera(0.05, 50, studio).update(renderer, room);
     let optics = true;
 
@@ -189,13 +191,17 @@
 
     function applyLook() {
       stone.material.dispose();
-      // light traced inside a transparent stone when available, else the
-      // physically based approximation
-      const traced = optics && root.GemOptics && radius
-        ? root.GemOptics.create(THREE, stone.geometry, look,
-          { envMap: studio.texture, depth, bounces: compact ? 4 : 7 })
-        : null;
-      stone.material = traced || materialFor(look, depth);
+      // light traced inside a transparent stone, texture and phenomena on
+      // an opaque or translucent one - else the physically based
+      // approximation (pearls, metals, "light rays" off)
+      let special = null;
+      if (optics && root.GemOptics && radius && look) {
+        const options = { envMap: studio.texture, depth, bounces: compact ? 4 : 7 };
+        special = look.family === 'transparent'
+          ? root.GemOptics.create(THREE, stone.geometry, look, options)
+          : root.GemOptics.createSurface(THREE, stone.geometry, look, options);
+      }
+      stone.material = special || materialFor(look, depth);
       // colour carries the facets: lighter lines; glass casts a lighter shadow
       edges.material.opacity = look ? 0.22 : 0.45;
       floor.material.opacity = look && look.family === 'transparent' ? 0.08 : 0.16;

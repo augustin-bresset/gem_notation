@@ -16,11 +16,12 @@
   const ASSETS = script && script.src ? new URL('.', script.src).href : 'assets/';
 
   // ── 3D preview ─────────────────────────────────────────────────────
-  // The chosen shape, else the stone's default one, turns in a small
-  // viewer - no parameter to set. three.js and the generator load with
-  // the first preview only; every parameter stays adjustable on
-  // shape3d.html.
-  const preview = { viewer: null, loading: null, code: null };
+  // The stone turns in a small viewer - no parameter to set - on the
+  // shape given, or on a reference shape suited to its material when no
+  // shape is given (an omitted block may be the default or simply not
+  // given: nothing is assumed). three.js and the generator load with the
+  // first preview only; every parameter stays adjustable on shape3d.html.
+  const preview = { viewer: null, loading: null, token: 0, shown: null };
 
   function load3d() {
     if (!preview.loading) {
@@ -38,18 +39,16 @@
     return preview.loading;
   }
 
-  async function refreshPreview(shape, isDefault) {
-    $('preview-3d').hidden = !shape;
-    preview.code = shape ? shape.code : null;
-    if (!shape) return;
+  async function refreshPreview() {
+    const { stone, grade, hue, shape: chosen } = selection;
+    const shape = chosen || null;
+    $('preview-3d').hidden = !(stone || shape);
+    const token = ++preview.token;
+    if (!stone && !shape) return;
     const status = $('preview-status');
     const stage = $('preview-stage');
-    $('preview-name').textContent = `${shape.code} — ${shape.name}`;
-    const params = new URLSearchParams({ shape: shape.code });
-    for (const key of ['stone', 'grade', 'hue']) {
-      if (selection[key]) params.set(key, selection[key].code);
-    }
-    $('preview-adjust').href = `shape3d.html?${params}`;
+    $('preview-name').textContent = shape ? `${shape.code} — ${shape.name}` : 'No shape given';
+    $('preview-cut').textContent = '';
     $('preview-look').hidden = true;
     try {
       await load3d();
@@ -58,36 +57,43 @@
       status.hidden = false;
       return;
     }
-    if (preview.code !== shape.code) return;  // another shape was picked meanwhile
+    if (token !== preview.token) return;  // the selection changed meanwhile
     const G3 = window.GemShape3D;
     const R = window.GemShapeRecipes;
-    const recipe = R.RECIPES[shape.code];
-    $('preview-cut').textContent = (recipe
-      ? `${G3.OUTLINES[recipe.outline].label.toLowerCase()} · ${R.CUT_LABELS[recipe.cut]}`
-      : '') + (isDefault ? ' · the stone’s default shape' : '');
+    // colour and material from the stone, hue and grade picked above
+    const look = stone ? window.GemStoneLook.lookFor(stone, grade, hue, D) : null;
+    const modelled = shape && R.RECIPES[shape.code] ? shape.code : null;
+    const model = modelled || window.GemStoneLook.referenceShape(stone && stone.code,
+                                                                 look ? look.family : 'transparent');
+    const recipe = R.RECIPES[model];
+    const outline = G3.OUTLINES[recipe.outline].label.toLowerCase();
+    const shown = `${outline} ${R.CUT_LABELS[recipe.cut]}`;
+    $('preview-cut').textContent = modelled
+      ? `${outline} · ${R.CUT_LABELS[recipe.cut]}`
+      : `${shape ? 'no 3D model yet — ' : ''}shown as ${/^[aeiou]/.test(shown) ? 'an' : 'a'} ${shown}`;
+    const params = new URLSearchParams({ shape: model });
+    for (const key of ['stone', 'grade', 'hue']) {
+      if (selection[key]) params.set(key, selection[key].code);
+    }
+    $('preview-adjust').href = `shape3d.html?${params}`;
     if (!preview.viewer) {
       preview.viewer = window.GemRender3D.create($('preview-canvas'), { compact: true });
     }
-    stage.classList.toggle('no-model', !recipe || !preview.viewer);
-    status.hidden = Boolean(recipe && preview.viewer);
+    stage.classList.toggle('no-model', !preview.viewer);
+    status.hidden = Boolean(preview.viewer);
     if (!preview.viewer) {
       status.textContent = 'WebGL is not available in this browser.';
-    } else if (!recipe) {
-      status.textContent = 'No 3D model for this shape yet.';
-    } else {
-      if (preview.shown !== shape.code) {
-        preview.viewer.setMesh(G3.toBuffers(G3.build(R.specFor(shape.code))));
-        preview.shown = shape.code;
-      }
-      // colour and material from the stone, hue and grade picked above
-      const look = window.GemStoneLook.lookFor(selection.stone, selection.grade,
-                                               selection.hue, D);
-      preview.viewer.setLook(look);
-      $('preview-look').hidden = !look;
-      if (look) {
-        $('preview-look').innerHTML =
-          `<span class="swatch" style="background:${look.color}"></span>${look.label}`;
-      }
+      return;
+    }
+    if (preview.shown !== model) {
+      preview.viewer.setMesh(G3.toBuffers(G3.build(R.specFor(model))));
+      preview.shown = model;
+    }
+    preview.viewer.setLook(look);
+    $('preview-look').hidden = !look;
+    if (look) {
+      $('preview-look').innerHTML =
+        `<span class="swatch" style="background:${look.color}"></span>${look.label}`;
     }
   }
 
@@ -97,8 +103,8 @@
 
   function refreshCompose() {
     const { stone, grade, hue, shape } = selection;
-    // the chosen shape, else the stone's default one, turns in 3D
-    refreshPreview(shape || (stone && shapes[stone.default_shape]) || null, !shape);
+    // the stone turns in 3D, on the shape given or a reference one
+    refreshPreview();
     const output = $('composed');
     const notes = $('compose-notes');
     notes.textContent = '';

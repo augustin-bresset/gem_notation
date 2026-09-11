@@ -70,8 +70,8 @@ tests/*.test.js            node --test suites
 ## 3D shapes
 
 Composing a code on the workspace shows the stone turning in a small
-3D preview — the chosen shape, else the stone's default one, with no
-parameter to set. `shape3d.html` is the full version, where every
+3D preview — on the shape given, or on a reference shape suited to its
+material when none is given — with no parameter to set. `shape3d.html` is the full version, where every
 parameter can be adjusted.
 
 No database holds the trade shapes, so the site **generates** each
@@ -98,12 +98,15 @@ ready to paste back as a recipe. Shapes without a recipe (house
 references A120…, carvings, mixes, strands) show as "no model yet".
 
 **Colour** (`assets/stone-look.js`) is a first approximation: every
-stone has its own colour and a material family (transparent,
+stone has a reference colour and a material family (transparent,
 translucent, opaque, pearl, metal) with its refractive index and
-dispersion; every hue is a colour, a haze (Milky, Cloudy, White I1…) or
-nothing (an origin, a treatment). The colour comes from the chosen hue,
-else the stone's usual hue, else its implied hue, else the stone; grades
-1–4 set its depth, 6–7 add haze.
+dispersion; every hue is a colour, a haze (Milky, Cloudy, White I1…), a
+phenomenon (Star, White Cat) or has no colour defined yet. The colour
+comes from the hue given, else the hue the stone implies, else the
+stone's reference colour; a grade given as 1–4 sets its depth, 6–7 add
+haze. As in the reading of a code, an omitted block may be the default
+or simply not given, so the preview assumes neither: the notation's
+defaults shorten codes, they are not facts about the stones.
 
 **Light in transparent stones** (`assets/gem-optics.js`) is ray traced on
 the GPU: the view ray refracts into the stone, bounces between the facets
@@ -113,6 +116,21 @@ path as in a real cut stone; stones with fire (diamond, zircon,
 moissanite…) are traced per colour channel. The facets are found with
 three-mesh-bvh, bundled with three.js. The "light rays" switch on the 3D
 page turns it off.
+
+**Opaque and translucent stones** get their own shader: a procedural
+texture in the stone's space — mottled (jade, jasper), veined (the matrix
+of turquoise, amazonite), flecked (the pyrite and calcite of lapis),
+rings (malachite, agate, rhodochrosite), stripes (tiger's eye, wood),
+clouds (chalcedony, rose quartz) — polished or waxy; translucent stones
+let light through where they are thin (jade glows at its edges); and
+optical phenomena: cat's eye, star (the Star hues: a star sapphire turns
+milky, as a real one is), adularescence (moonstone), play of colour
+(opal), labradorescence, glitter (aventurine, sunstone, lapis).
+
+On the workspace, when no shape is given — or the one given has no 3D
+model yet — the stone turns on a reference shape suited to its material
+(round brilliant, oval cabochon, ball, disk…), said as much under the
+preview.
 
 The page exports the stone at a chosen width in millimetres: STL (mm,
 Z up) for CAD and printing, GLB (metres, Y up) for 3D viewers.

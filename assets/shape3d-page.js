@@ -83,9 +83,9 @@
     const pick = (key) => (value) => { material[key] = value; applyMaterial(); syncUrl(); };
     addSelect(box, 'Stone', [['', '— none: study the shape —']].concat(byName(D.stones)),
       material.stone, pick('stone'));
-    addSelect(box, 'Hue', [['', "— the stone's usual —"]].concat(byName(D.hues)),
+    addSelect(box, 'Hue', [['', '— not given —']].concat(byName(D.hues)),
       material.hue, pick('hue'));
-    addSelect(box, 'Grade', [['', '— the stone’s default —']]
+    addSelect(box, 'Grade', [['', '— not given —']]
       .concat(D.grades.map((g) => [g.code, `${g.code} — ${g.name}`])), material.grade, pick('grade'));
     const note = document.createElement('div');
     note.id = 'look-note';

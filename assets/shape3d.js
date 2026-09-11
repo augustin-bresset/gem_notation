@@ -161,6 +161,39 @@
         return [-r / 2 + r * Math.cos(psi), 0.5 * Math.sin(psi)];
       },
     },
+    fan: {
+      label: 'Fan', n: 8, symmetries: [4, 8, 12, 16], corners: () => odd(4),
+      raw: (t) => {
+        // an outer arc, two sides converging, a short straight inner edge
+        const open = Math.PI / 4;
+        const inner = 0.3;
+        const arc = (a, r) => [r * Math.cos(a), r * Math.sin(a)];
+        const lerp = (p, q, f) => [p[0] + f * (q[0] - p[0]), p[1] + f * (q[1] - p[1])];
+        const u = t > 7 / 8 ? t - 1 : t;
+        if (u <= 1 / 8) return arc((u / (1 / 8)) * open, 1);
+        if (u <= 3 / 8) return lerp(arc(open, 1), arc(open, inner), (u - 1 / 8) * 4);
+        if (u <= 5 / 8) return lerp(arc(open, inner), arc(-open, inner), (u - 3 / 8) * 4);
+        return lerp(arc(-open, inner), arc(-open, 1), (u - 5 / 8) * 4);
+      },
+    },
+    bullet: {
+      label: 'Bullet', ratio: 2, n: 8, symmetries: [4, 8, 12, 16],
+      corners: () => [3 / 8, 5 / 8],
+      raw: (t, s) => {
+        // straight sides, a flat back, a rounded nose 0.6 x the width long
+        const a = s.ratio / 2;
+        const x0 = Math.max(-a + 0.05, a - 0.6);
+        const nose = a - x0;
+        const u = t > 3 / 4 ? t - 1 : t;
+        if (u <= 1 / 4) {
+          const psi = (u / (1 / 4)) * (Math.PI / 2);
+          return [x0 + nose * Math.cos(psi), 0.5 * Math.sin(psi)];
+        }
+        if (u <= 3 / 8) return [x0 + (u - 1 / 4) * 8 * (-a - x0), 0.5];
+        if (u <= 5 / 8) return [-a, 0.5 - (u - 3 / 8) * 4];
+        return [-a + (u - 5 / 8) * 8 * (x0 + a), -0.5];
+      },
+    },
     pear: {
       label: 'Pear', ratio: 1.6, n: 8, symmetries: [6, 8, 10, 12, 16],
       corners: () => [0],
@@ -289,8 +322,18 @@
     }
 
     function face(indices, kind, smooth) {
-      const v = indices.filter((index, i) =>
-        index !== indices[(i + 1) % indices.length]);
+      let v = indices.filter((index, i) => index !== indices[(i + 1) % indices.length]);
+      // a collapsed ring can leave a spike (a, b, a): fold it away, or
+      // the edge a-b would be walked twice
+      for (let i = 0; v.length >= 3 && i < v.length; i++) {
+        const m = v.length;
+        if (v[(i - 1 + m) % m] === v[(i + 1) % m]) {
+          const drop = new Set([i, (i + 1) % m]);
+          v = v.filter((_, k) => !drop.has(k));
+          v = v.filter((index, k) => index !== v[(k + 1) % v.length]);
+          i = -1;
+        }
+      }
       if (new Set(v).size >= 3) faces.push({ v, kind, smooth: Boolean(smooth) });
     }
 

@@ -59,6 +59,7 @@ assets/shape3d-recipes.js  shape code -> outline + cut + overrides
 assets/shape3d-render.js   the 3D viewer and STL / GLB export (three.js)
 assets/shape3d-page.js     3D page behaviour
 assets/stone-look.js       colour and material of each stone and hue
+assets/gem-optics.js       light ray traced inside transparent stones
 assets/vendor/three.js     three.js + addons as one script (generated)
 data/*.csv                 source of truth for the dictionaries
 tools/build_data.py        regenerates assets/data.js from data/*.csv
@@ -102,9 +103,16 @@ translucent, opaque, pearl, metal) with its refractive index and
 dispersion; every hue is a colour, a haze (Milky, Cloudy, White I1…) or
 nothing (an origin, a treatment). The colour comes from the chosen hue,
 else the stone's usual hue, else its implied hue, else the stone; grades
-1–4 set its depth, 6–7 add haze. Transparent stones refract and absorb
-their colour with depth, but light does not yet bounce inside them — no
-brilliance yet.
+1–4 set its depth, 6–7 add haze.
+
+**Light in transparent stones** (`assets/gem-optics.js`) is ray traced on
+the GPU: the view ray refracts into the stone, bounces between the facets
+(total internal reflection where the angle allows, Fresnel leakage
+elsewhere) and is absorbed along its path, so the colour deepens with the
+path as in a real cut stone; stones with fire (diamond, zircon,
+moissanite…) are traced per colour channel. The facets are found with
+three-mesh-bvh, bundled with three.js. The "light rays" switch on the 3D
+page turns it off.
 
 The page exports the stone at a chosen width in millimetres: STL (mm,
 Z up) for CAD and printing, GLB (metres, Y up) for 3D viewers.

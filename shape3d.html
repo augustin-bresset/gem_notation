@@ -93,6 +93,7 @@
         <button type="button" class="chip" data-view="front">End</button>
         <button type="button" class="chip" data-view="bottom">Bottom</button>
         <span class="spacer"></span>
+        <label class="toggle" title="Trace light through transparent stones: refraction, inner reflections, fire"><input id="optics" type="checkbox" checked> light rays</label>
         <label class="toggle"><input id="edges" type="checkbox" checked> edges</label>
         <label class="toggle"><input id="rotate" type="checkbox"> rotate</label>
       </div>
@@ -143,9 +144,12 @@
       implied hue — and from the stone otherwise; grades 1–4 set its depth,
       and hues such as Milky or White I2 make it hazier. Transparent stones
       refract and absorb their colour with depth; opaque, milky, pearly and
-      metal ones each have their own material. Light does not yet bounce
-      inside a stone, so a cut stone shows its colour but not its
-      brilliance.</p>
+      metal ones each have their own material. With <em>light rays</em> on,
+      light is traced through a transparent stone: it refracts in, bounces
+      between the facets — totally reflected where the angle allows — leaves
+      where it can, and is absorbed along the way, so the colour deepens
+      with the path, as in a real cut stone; stones with fire split it into
+      colours.</p>
   </section>
 </main>
 
@@ -160,6 +164,7 @@
 <script src="assets/shape3d.js"></script>
 <script src="assets/shape3d-recipes.js"></script>
 <script src="assets/stone-look.js"></script>
+<script src="assets/gem-optics.js"></script>
 <script src="assets/vendor/three.js"></script>
 <script src="assets/shape3d-render.js"></script>
 <script src="assets/shape3d-page.js"></script>

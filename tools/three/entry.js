@@ -4,3 +4,7 @@ export { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 export { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 export { STLExporter } from 'three/addons/exporters/STLExporter.js';
 export { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+// ray tracing inside a stone (assets/gem-optics.js)
+export {
+  MeshBVH, MeshBVHUniformStruct, FloatVertexAttributeTexture, BVHShaderGLSL,
+} from 'three-mesh-bvh';

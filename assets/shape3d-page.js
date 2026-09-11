@@ -248,6 +248,7 @@
     button.addEventListener('click', () => viewer && viewer.view(button.dataset.view));
   }
   $('edges').addEventListener('change', (ev) => viewer && viewer.setEdges(ev.target.checked));
+  $('optics').addEventListener('change', (ev) => viewer && viewer.setOptics(ev.target.checked));
   $('rotate').addEventListener('change', (ev) => viewer && viewer.setAutoRotate(ev.target.checked));
 
   const modelled = D.shapes.filter((s) => R.RECIPES[s.code]).length;

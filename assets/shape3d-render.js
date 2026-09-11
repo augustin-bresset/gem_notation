@@ -99,13 +99,19 @@
     // neutral tone mapping keeps a stone's hue where ACES would shift it
     renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
 
     const scene = new THREE.Scene();
     scene.background = backdrop();
+    const room = new THREE.RoomEnvironment();
     const pmrem = new THREE.PMREMGenerator(renderer);
-    scene.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+    scene.environment = pmrem.fromScene(room, 0.04).texture;
     pmrem.dispose();
+    // the same studio as a sharp cube map: what light traced through a
+    // transparent stone sees (GemOptics)
+    const studio = new THREE.WebGLCubeRenderTarget(256, { type: THREE.HalfFloatType });
+    new THREE.CubeCamera(0.05, 50, studio).update(renderer, room);
+    let optics = true;
 
     const camera = new THREE.PerspectiveCamera(32, 1, 0.01, 100);
     camera.up.set(0, 0, 1);  // before the controls: they orbit around it
@@ -183,7 +189,13 @@
 
     function applyLook() {
       stone.material.dispose();
-      stone.material = materialFor(look, depth);
+      // light traced inside a transparent stone when available, else the
+      // physically based approximation
+      const traced = optics && root.GemOptics && radius
+        ? root.GemOptics.create(THREE, stone.geometry, look,
+          { envMap: studio.texture, depth, bounces: compact ? 4 : 7 })
+        : null;
+      stone.material = traced || materialFor(look, depth);
       // colour carries the facets: lighter lines; glass casts a lighter shadow
       edges.material.opacity = look ? 0.22 : 0.45;
       floor.material.opacity = look && look.family === 'transparent' ? 0.08 : 0.16;
@@ -253,6 +265,7 @@
     return {
       setMesh,
       setLook: (value) => { look = value || null; applyLook(); },
+      setOptics: (on) => { optics = Boolean(on); applyLook(); },
       view,
       render,
       exportModel,

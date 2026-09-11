@@ -26,7 +26,7 @@
     if (!preview.loading) {
       // a self-contained copy of the page may hand over its own loading
       preview.loading = window.GemShape3DReady || ['vendor/three.js', 'shape3d.js', 'shape3d-recipes.js',
-                         'stone-look.js', 'shape3d-render.js']
+                         'stone-look.js', 'gem-optics.js', 'shape3d-render.js']
         .reduce((chain, file) => chain.then(() => new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = ASSETS + file;

@@ -1,0 +1,1554 @@
+{
+ "duplicates": 4368,
+ "every_axis": {
+  "indexed": 1945,
+  "max": 11,
+  "models_over9": 2,
+  "over9": 8
+ },
+ "families": {
+  "abalone": {
+   "axes": [],
+   "lines": 1,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "agate": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 130,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "akoya-pearl": {
+   "axes": [
+    "c"
+   ],
+   "lines": 53,
+   "options": {
+    "": {
+     "indexed": 5,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "alexandrite": {
+   "axes": [],
+   "lines": 4,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "amazonite": {
+   "axes": [],
+   "lines": 10,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "amethyst": {
+   "axes": [
+    "c",
+    "g",
+    "e"
+   ],
+   "lines": 13187,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ce": {
+     "indexed": -9,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -549,
+     "max": 22
+    },
+    "cge": {
+     "indexed": -549,
+     "max": 22
+    },
+    "e": {
+     "indexed": -9,
+     "max": 22
+    },
+    "g": {
+     "indexed": -549,
+     "max": 22
+    },
+    "ge": {
+     "indexed": -549,
+     "max": 22
+    }
+   }
+  },
+  "ametrine": {
+   "axes": [],
+   "lines": 4,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "apatite": {
+   "axes": [
+    "c"
+   ],
+   "lines": 409,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "aquamarine": {
+   "axes": [
+    "g",
+    "e"
+   ],
+   "lines": 1350,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "e": {
+     "indexed": -4,
+     "max": 22
+    },
+    "g": {
+     "indexed": -72,
+     "max": 22
+    },
+    "ge": {
+     "indexed": -72,
+     "max": 22
+    }
+   }
+  },
+  "aquaprase": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "aventurine": {
+   "axes": [
+    "c"
+   ],
+   "lines": 35,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "beryl": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 9,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "bone": {
+   "axes": [],
+   "lines": 7,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "bronzite": {
+   "axes": [],
+   "lines": 12,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "calcite": {
+   "axes": [],
+   "lines": 216,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "came": {
+   "axes": [],
+   "lines": 5,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "carnelian": {
+   "axes": [],
+   "lines": 52,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "ceramic": {
+   "axes": [],
+   "lines": 1,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "chalcedony": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 1070,
+   "options": {
+    "": {
+     "indexed": 14,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -1,
+     "max": 22
+    },
+    "g": {
+     "indexed": 12,
+     "max": 22
+    }
+   }
+  },
+  "chrysoberyl": {
+   "axes": [],
+   "lines": 1,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "chrysoprase": {
+   "axes": [],
+   "lines": 144,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "citrine": {
+   "axes": [
+    "g"
+   ],
+   "lines": 10413,
+   "options": {
+    "": {
+     "indexed": 427,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "concrete": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "coral": {
+   "axes": [
+    "c",
+    "t"
+   ],
+   "lines": 514,
+   "options": {
+    "": {
+     "indexed": 11,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ct": {
+     "indexed": 0,
+     "max": 22
+    },
+    "t": {
+     "indexed": 6,
+     "max": 22
+    }
+   }
+  },
+  "crystal": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "cubic-zirconia": {
+   "axes": [],
+   "lines": 277,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "diamond": {
+   "axes": [
+    "c",
+    "g",
+    "t",
+    "e"
+   ],
+   "lines": 56405,
+   "options": {
+    "": {
+     "indexed": 1985,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ce": {
+     "indexed": -5,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -747,
+     "max": 11
+    },
+    "cge": {
+     "indexed": -747,
+     "max": 11
+    },
+    "cgt": {
+     "indexed": -747,
+     "max": 11
+    },
+    "cgte": {
+     "indexed": -747,
+     "max": 11
+    },
+    "ct": {
+     "indexed": -2,
+     "max": 22
+    },
+    "cte": {
+     "indexed": -7,
+     "max": 22
+    },
+    "e": {
+     "indexed": 1981,
+     "max": 22
+    },
+    "g": {
+     "indexed": -546,
+     "max": 11
+    },
+    "ge": {
+     "indexed": -548,
+     "max": 11
+    },
+    "gt": {
+     "indexed": -546,
+     "max": 11
+    },
+    "gte": {
+     "indexed": -548,
+     "max": 11
+    },
+    "t": {
+     "indexed": 1983,
+     "max": 22
+    },
+    "te": {
+     "indexed": 1979,
+     "max": 22
+    }
+   }
+  },
+  "diopside": {
+   "axes": [
+    "c",
+    "e"
+   ],
+   "lines": 1103,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ce": {
+     "indexed": 0,
+     "max": 22
+    },
+    "e": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "dragon-eye": {
+   "axes": [],
+   "lines": 15,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "eagle-eye": {
+   "axes": [],
+   "lines": 12,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "emerald": {
+   "axes": [
+    "g",
+    "t"
+   ],
+   "lines": 1531,
+   "options": {
+    "": {
+     "indexed": 28,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    },
+    "gt": {
+     "indexed": 0,
+     "max": 22
+    },
+    "t": {
+     "indexed": 27,
+     "max": 22
+    }
+   }
+  },
+  "fire-opal": {
+   "axes": [],
+   "lines": 10,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "fluorite": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "garnet": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 3833,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "hematite": {
+   "axes": [],
+   "lines": 19,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "iolite": {
+   "axes": [
+    "g"
+   ],
+   "lines": 10077,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": -126,
+     "max": 22
+    }
+   }
+  },
+  "jade": {
+   "axes": [
+    "c",
+    "t"
+   ],
+   "lines": 202,
+   "options": {
+    "": {
+     "indexed": 28,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ct": {
+     "indexed": 0,
+     "max": 22
+    },
+    "t": {
+     "indexed": 7,
+     "max": 22
+    }
+   }
+  },
+  "jasper": {
+   "axes": [
+    "c"
+   ],
+   "lines": 6,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "jet": {
+   "axes": [],
+   "lines": 1,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "kunzite": {
+   "axes": [],
+   "lines": 14,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "kyanite": {
+   "axes": [],
+   "lines": 63,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "labradorite": {
+   "axes": [],
+   "lines": 53,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "lapis": {
+   "axes": [
+    "g"
+   ],
+   "lines": 355,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": -4,
+     "max": 22
+    }
+   }
+  },
+  "mabe-pearl": {
+   "axes": [],
+   "lines": 6,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "malachite": {
+   "axes": [
+    "g"
+   ],
+   "lines": 254,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": -4,
+     "max": 22
+    }
+   }
+  },
+  "mandarin-garnet": {
+   "axes": [],
+   "lines": 6,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "miscellaneous": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "moissanite": {
+   "axes": [],
+   "lines": 10,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "moonstone": {
+   "axes": [
+    "c",
+    "g",
+    "e"
+   ],
+   "lines": 4727,
+   "options": {
+    "": {
+     "indexed": 220,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ce": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -1,
+     "max": 22
+    },
+    "cge": {
+     "indexed": -1,
+     "max": 22
+    },
+    "e": {
+     "indexed": 218,
+     "max": 22
+    },
+    "g": {
+     "indexed": 210,
+     "max": 22
+    },
+    "ge": {
+     "indexed": 208,
+     "max": 22
+    }
+   }
+  },
+  "morganite": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 117,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -1,
+     "max": 22
+    },
+    "g": {
+     "indexed": -1,
+     "max": 22
+    }
+   }
+  },
+  "mother-of-pearl": {
+   "axes": [
+    "c"
+   ],
+   "lines": 1371,
+   "options": {
+    "": {
+     "indexed": 70,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "nephrite": {
+   "axes": [
+    "c"
+   ],
+   "lines": 6,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "obsidian": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "onyx": {
+   "axes": [
+    "c"
+   ],
+   "lines": 1003,
+   "options": {
+    "": {
+     "indexed": 8,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "opal": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 415,
+   "options": {
+    "": {
+     "indexed": 4,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -15,
+     "max": 22
+    },
+    "g": {
+     "indexed": -13,
+     "max": 22
+    }
+   }
+  },
+  "pearl": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 3869,
+   "options": {
+    "": {
+     "indexed": 252,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 248,
+     "max": 22
+    }
+   }
+  },
+  "peridot": {
+   "axes": [
+    "g"
+   ],
+   "lines": 9442,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": -5,
+     "max": 22
+    }
+   }
+  },
+  "porcelain": {
+   "axes": [],
+   "lines": 6,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "prehnite": {
+   "axes": [
+    "c",
+    "g",
+    "e"
+   ],
+   "lines": 431,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ce": {
+     "indexed": -16,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -10,
+     "max": 22
+    },
+    "cge": {
+     "indexed": -24,
+     "max": 22
+    },
+    "e": {
+     "indexed": -16,
+     "max": 22
+    },
+    "g": {
+     "indexed": -10,
+     "max": 22
+    },
+    "ge": {
+     "indexed": -24,
+     "max": 22
+    }
+   }
+  },
+  "quartz": {
+   "axes": [
+    "c",
+    "g",
+    "e"
+   ],
+   "lines": 10405,
+   "options": {
+    "": {
+     "indexed": 1010,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "ce": {
+     "indexed": -53,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -23,
+     "max": 22
+    },
+    "cge": {
+     "indexed": -76,
+     "max": 22
+    },
+    "e": {
+     "indexed": 937,
+     "max": 22
+    },
+    "g": {
+     "indexed": 570,
+     "max": 22
+    },
+    "ge": {
+     "indexed": 507,
+     "max": 22
+    }
+   }
+  },
+  "rhodochrosite": {
+   "axes": [],
+   "lines": 4,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "rhodolite": {
+   "axes": [
+    "g"
+   ],
+   "lines": 9255,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": -2,
+     "max": 22
+    }
+   }
+  },
+  "rock-crystal": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "rose-de-france": {
+   "axes": [],
+   "lines": 4431,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "rubellite": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 1268,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -2,
+     "max": 22
+    },
+    "g": {
+     "indexed": -2,
+     "max": 22
+    }
+   }
+  },
+  "ruby": {
+   "axes": [
+    "g"
+   ],
+   "lines": 2106,
+   "options": {
+    "": {
+     "indexed": 84,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "rutile-quartz": {
+   "axes": [
+    "c"
+   ],
+   "lines": 58,
+   "options": {
+    "": {
+     "indexed": 6,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "sapphire": {
+   "axes": [
+    "c",
+    "g",
+    "e"
+   ],
+   "lines": 49853,
+   "options": {
+    "": {
+     "indexed": 2135,
+     "max": 22
+    },
+    "c": {
+     "indexed": 385,
+     "max": 22
+    },
+    "ce": {
+     "indexed": 385,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cge": {
+     "indexed": 0,
+     "max": 22
+    },
+    "e": {
+     "indexed": 2132,
+     "max": 22
+    },
+    "g": {
+     "indexed": 653,
+     "max": 22
+    },
+    "ge": {
+     "indexed": 651,
+     "max": 22
+    }
+   }
+  },
+  "sea-bamboo": {
+   "axes": [],
+   "lines": 13,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "silver": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "south-sea-pearl": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "spessartite": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 146,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "sphalerite": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "spinel": {
+   "axes": [
+    "c"
+   ],
+   "lines": 283,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "stainless": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 17,
+   "options": {
+    "": {
+     "indexed": 3,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 3,
+     "max": 22
+    }
+   }
+  },
+  "sunstone": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "synthetic": {
+   "axes": [
+    "c"
+   ],
+   "lines": 7,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "tahiti-pearl": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 160,
+   "options": {
+    "": {
+     "indexed": 43,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -4,
+     "max": 22
+    },
+    "g": {
+     "indexed": 28,
+     "max": 22
+    }
+   }
+  },
+  "tanzanite": {
+   "axes": [
+    "g"
+   ],
+   "lines": 1147,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": -17,
+     "max": 22
+    }
+   }
+  },
+  "tiger-eye": {
+   "axes": [
+    "g"
+   ],
+   "lines": 84,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "topaz": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 17447,
+   "options": {
+    "": {
+     "indexed": 658,
+     "max": 22
+    },
+    "c": {
+     "indexed": 528,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "tourmaline": {
+   "axes": [
+    "c",
+    "g"
+   ],
+   "lines": 12666,
+   "options": {
+    "": {
+     "indexed": 58,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": -15,
+     "max": 22
+    },
+    "g": {
+     "indexed": 42,
+     "max": 22
+    }
+   }
+  },
+  "tsavorite": {
+   "axes": [
+    "g"
+   ],
+   "lines": 15032,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "g": {
+     "indexed": -88,
+     "max": 22
+    }
+   }
+  },
+  "turquoise": {
+   "axes": [
+    "c",
+    "g",
+    "t"
+   ],
+   "lines": 827,
+   "options": {
+    "": {
+     "indexed": 5,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cg": {
+     "indexed": 0,
+     "max": 22
+    },
+    "cgt": {
+     "indexed": -16,
+     "max": 22
+    },
+    "ct": {
+     "indexed": -16,
+     "max": 22
+    },
+    "g": {
+     "indexed": 5,
+     "max": 22
+    },
+    "gt": {
+     "indexed": -13,
+     "max": 22
+    },
+    "t": {
+     "indexed": -13,
+     "max": 22
+    }
+   }
+  },
+  "uvite": {
+   "axes": [],
+   "lines": 0,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "wood": {
+   "axes": [
+    "c"
+   ],
+   "lines": 163,
+   "options": {
+    "": {
+     "indexed": 1,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  },
+  "zircon": {
+   "axes": [
+    "c"
+   ],
+   "lines": 69,
+   "options": {
+    "": {
+     "indexed": 0,
+     "max": 22
+    },
+    "c": {
+     "indexed": 0,
+     "max": 22
+    }
+   }
+  }
+ },
+ "family_only": {
+  "indexed": 11068,
+  "max": 22,
+  "models_over9": 31,
+  "over9": 167
+ },
+ "lines": 248707,
+ "products": 45896,
+ "proposal": {
+  "indexed": 3693,
+  "max": 22,
+  "models_over9": 4,
+  "over9": 29
+ }
+}

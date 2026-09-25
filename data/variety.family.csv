@@ -1,0 +1,88 @@
+id,name,category,code,legacy_types,axes,default_colour,look,note
+diamond,Diamond,D,DTS,DTS,colour,WH,DI,
+moissanite,Moissanite,D,MOI,MOI,,,MI,
+emerald,Emerald,P,EM,EM,grade,,EM,
+ruby,Ruby,P,RU,RU,grade,,RU,
+sapphire,Sapphire,P,SA,SA SK,colour grade,,SA,Sapphire Kanchana (SK) becomes the colour Kanchana
+tanzanite,Tanzanite,P,TAN,TAN,,,TA,
+tsavorite,Tsavorite,P,TSAV,TSAV,,,TS,
+alexandrite,Alexandrite,S,ALX,ALX,,,AL,
+amethyst,Amethyst,S,AME,AME,colour,,AM,
+ametrine,Ametrine,S,AMET,AMET,,,AE,
+apatite,Apatite,S,AP,AP,colour,,AP,
+aquamarine,Aquamarine,S,AQ,AQ,,,AQ,
+beryl,Beryl,S,BRL,BRL,colour,YL,BY,
+chrysoberyl,Chrysoberyl,S,CHR,CHR,,,CY,
+chrysoprase,Chrysoprase,S,CHRP,CHRP,,,CR,
+citrine,Citrine,S,CIT,CIT,grade,,CI,
+cubic-zirconia,Cubic Zirconia,S,CUB,CUB QUB,,,CU,Cubic (CUB) and Qubic (QUB) were the same stone
+fire-opal,Fire Opal,S,FOP,FOP,,,FI,
+fluorite,Fluorite,S,FLU,FLU,,,FL,
+garnet,Garnet,S,GA,GA,colour,,GA,
+iolite,Iolite,S,IOL,IOL,,,IO,
+kunzite,Kunzite,S,KUN,KUN,,,KU,
+kyanite,Kyanite,S,KYA,KYA,,,KY,
+mandarin-garnet,Mandarin Garnet,S,MGA,MGA,,,MN,
+miscellaneous,Miscellaneous,S,MIS,MIS,,,MS,
+morganite,Morganite,S,MOR,MOR,colour,,MR,
+opal,Opal,S,OP,OP,colour,PK,OP,
+peridot,Peridot,S,PER,PER,,,PE,
+quartz,Quartz,S,QTZ,GQ PQA LAQ OLQ SMQ CHP COG WQA,colour,,WI,"Coloured quartz types become colours of Quartz; stones with a trade name of their own (Amethyst, Citrine, Ametrine, Rock Crystal, Rutile Quartz, Rose de France) keep their family"
+rhodolite,Rhodolite,S,RHO,RHO,,,RH,
+rose-de-france,Rose de France,S,RDF,RDF,,,RO,
+rubellite,Rubellite,S,RUBE,RUBE,colour,,RB,
+rutile-quartz,Rutile Quartz,S,RUT,RUT,colour,GO,RT,
+spessartite,Spessartite,S,SPE,SPE,colour,,SE,
+sphalerite,Sphalerite,S,SPH,SPH,,,SH,
+spinel,Spinel,S,SPI,SPI,colour,BK,SI,
+synthetic,Synthetic,S,SYN,SYN,colour,,SY,The species is not stated; a lab-grown stone would rather be a real species with the treatment Lab-grown
+topaz,Topaz,S,TOP,TOP BT WT,colour grade,BL,TO,Blue Topaz and White Topaz become colours of Topaz
+tourmaline,Tourmaline,S,TOU,TOU BKTOU BTOUR GTOUR PTOUR FYTOU PAR,colour,PK,TR,Coloured tourmaline types and Paraiba become colours of Tourmaline; Rubellite keeps its family
+uvite,Uvite,S,UV,UV,,,UV,
+zircon,Zircon,S,ZC,ZC BZ,colour,BL,ZI,Blue Zircon becomes a colour of Zircon
+abalone,Abalone,H,ABA,ABA,,,AB,
+agate,Agate,H,AGA,AGA BAG,colour,WH,AG,Blue Agate becomes a colour of Agate
+amazonite,Amazonite,H,AMZ,AMZ,,,AA,
+aquaprase,Aquaprase,H,AQP,AQP,,,AU,
+aventurine,Aventurine,H,AVT,AVT,colour,,AV,
+bronzite,Bronzite,H,BRZ,BRZ,,,BR,
+calcite,Calcite,H,CAC,CAC,,,CA,
+came,Came,H,CAM,CAM,,,CE,Name to confirm (cameo?)
+carnelian,Carnelian,H,CAR,CAR,,,CN,
+chalcedony,Chalcedony,H,CHA,CHA,colour,,CH,
+coral,Coral,H,CORAL,CORAL,colour,,CO,
+crystal,Crystal,H,CRY,CRY,,,CS,
+diopside,Diopside,H,DIO,DIO BDI,colour,GR,DO,Black Diopside becomes a colour of Diopside
+dragon-eye,Dragon Eye,H,DRE,DRE,,,DR,
+eagle-eye,Eagle Eye,H,EAG,EAG,,,EA,
+hematite,Hematite,H,HMT,HMT,,,HE,
+jade,Jade,H,JAD,JAD DYJ,colour,,JA,Dyed Jade becomes Jade with the treatment Dyed
+jasper,Jasper,H,JSP,JSP,colour,,JS,
+jet,Jet,H,JET,JET,,,JE,
+labradorite,Labradorite,H,LAB,LAB,,,LB,
+lapis,Lapis,H,LAP,LAP,,,LA,
+malachite,Malachite,H,MLK,MLK,,,MA,
+moonstone,Moonstone,H,MON,MON,colour,RB,MO,
+mother-of-pearl,Mother of Pearl,H,MOP,MOP,colour,,MT,
+nephrite,Nephrite,H,NEP,NEP,colour,,NE,
+obsidian,Obsidian,H,OBS,OBS,,,OB,
+onyx,Onyx,H,ONY,ONY,colour,,ON,
+prehnite,Prehnite,H,PREH,PREH,colour,,PR,
+rhodochrosite,Rhodochrosite,H,RDC,RDC,,,RD,
+rock-crystal,Rock Crystal,H,RCR,RCR,,,RC,
+sea-bamboo,Sea Bamboo,H,SB,SB,,,SB,
+sunstone,Sunstone,H,SUN,SUN,,,SU,
+tiger-eye,Tiger Eye,H,TIG,TIG,,,TI,
+turquoise,Turquoise,H,TURQ,TURQ TU,colour,,TU,Real Turquoise (TU) becomes Turquoise with the treatment Real
+pearl,Pearl,R,PRL,PRL PR1 PR2 BUT,colour,,PA,"Drilling (1 or 2 holes) is not a variety axis, and Button is a shape - to decide"
+akoya-pearl,Akoya Pearl,R,AK1,AK1 AK2,colour,,AK,Also the Pearl stones with the shade Akoya
+tahiti-pearl,Tahiti Pearl,R,THP,THP,colour,,TH,Also the Pearl stones with the shade Tahitian
+south-sea-pearl,South Sea Pearl,R,,,,,PA,The Pearl stones with the shade South Seas Pearl
+mabe-pearl,Mabe Pearl,R,MAB,MAB,,,MB,
+silver,Silver,M,SIL,SIL,,,SL,
+stainless,Stainless Steel,M,STS,STS,colour,,ST,
+wood,Wood,M,WD,WD,colour,,WO,
+concrete,Concrete,M,CCT,CCT,,,CT,
+ceramic,Ceramic,M,CER,CER,,,CC,
+porcelain,Porcelain,M,POR,POR,,,PO,
+bone,Bone,M,BON,BON,,,BO,

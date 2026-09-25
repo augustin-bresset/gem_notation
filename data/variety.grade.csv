@@ -1,0 +1,21 @@
+id,name,scale,look
+A,Light (A),tone,1
+AA,Medium (AA),tone,2
+AAA,Dark (AAA),tone,3
+AAAA,Darker (AAAA),tone,4
+GOOD,Good,quality,5
+MEDIUM,Medium,quality,6
+BAD,Bad,quality,7
+SPECIAL,Special,quality,
+FIRE,First Fire,quality,
+VVS,VVS,clarity,
+VS,VS,clarity,
+SI1,SI1,clarity,
+SIP1,SI-P1,clarity,
+I1,I1,clarity,
+I2,I2,clarity,
+I3,I3,clarity,
+LD,Light Dull,kanchana,
+LF,Light Fire,kanchana,
+DD,Dark Dull,kanchana,
+DF,Dark Fire,kanchana,

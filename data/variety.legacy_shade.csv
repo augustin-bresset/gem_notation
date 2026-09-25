@@ -1,0 +1,99 @@
+legacy_shade,name,family,colour,grade,treatment,effect,note
+2,2 Good,,,GOOD,,,
+3,3 Medium,,,MEDIUM,,,"'3 Medium' read as quality Medium, like CS"
+A,A Light Color,,,A,,,
+AA,AA Medium Color,,,AA,,,
+AAA,AAA Dark Color,,,AAA,,,
+AAAA,AAAA Darker Color,,,AAAA,,,
+AK,Akoya,akoya-pearl,,,,,
+AUB,Aubergine,,AU,,,,
+BB,BB Australian Blue Black,,AB,,,,
+BK,Black,,BK,,,,
+BL,Blue,,BL,,,,
+BLST,Blue Star,,BL,,,STAR,
+BR,Brown,,BR,,,,
+BST,Black Star,,BK,,,STAR,
+C,C Bad,,,BAD,,,
+CD,Chrome deep,,CR,AAAA,,,'Chrome deep' read as a darker chrome
+CDA,Chrome Dark,,CR,AAA,,,
+CDY,CLOUDY,,,,,CLOUDY,
+CH,Charcoal,,CC,,,,
+CHP,Champaign,,CH,,,,
+CS,CS Medium/Austr. Medium,,,MEDIUM,,,"CS read as quality Medium, between Good and Bad (legacy label: Medium / Austr. Medium)"
+CVD,SPECIAL DIA,,WH,,LAB,,'SPECIAL DIA' (CVD) read as a lab-grown white diamond
+DD,DD Kanchana Dark Dull,,KA,DD,,,
+DF,DF Kanchana Dark Fire,,KA,DF,,,
+FF,FF First Fire,,,FIRE,,,
+GBL,Grey/Blue,,GB,,,,
+GD,Good,,,GOOD,,,same as '2 Good'
+GO,Gold,,GO,,,,
+GR,Green,,GR,,,,
+GY,Grey,,GY,,,,
+IC,Ice Ceylan,,IC,,,,
+ICE,Ice Dts,,,,,ICE,
+JAD,Jadeite,,,,,,Jadeite is a jade mineral (Nephrite is the other one) - to decide
+LAV,Lavender,,LV,,,,
+LBL,Light Blue,,BL,A,,,
+LBR,Light Brown,,BR,A,,,
+LC,LC Light Ceylon,,CE,A,,,
+LCM,LCM Light Ceylon Medium,,CE,AA,,,"'Light Ceylon Medium' read as Ceylon, medium"
+LD,LD Kanchana Light Dull,,KA,LD,,,
+LF,LF Kanchana Light Fire,,KA,LF,,,
+LI,Lime,,LI,,,,
+LPL,Lingt PL Pink Light,,PK,A,,,"'Light PL' read as PL (pink, light)"
+LVIO,VIOLET LIGHT,,VI,A,,,
+M,M medium,,,AA,,,"'M medium' = medium colour, as in the notation"
+ML,Milky,,,,,MILKY,
+MLY,Malaya,,MY,,,,
+MUL,Multi,,MU,,,,
+MVIO,VIOLET MEDIUM,,VI,AA,,,
+NAT,Nats,,NA,,,,meaning of 'Nats' to confirm
+OC,OC Open Color Ceylon,,OC,,,,
+OR,Orange,,OR,,,,
+ORL,Orange Light,,OR,A,,,
+PAD,Padparasha,,PD,,,,
+PARA,Paraiba,,PA,,,,
+PCK,Peacock,,PC,,,,
+PF,PF Pink Dark,,PK,AAA,,,
+PK,PINK,,PK,,,,
+PL,PL Pink Light,,PK,A,,,
+PLM,PLM LIGHT PINK MEDIUM,,PK,A,,,"'Light pink medium' read as PL (pink, light)"
+PM,PM Pink Medium,,PK,AA,,,
+PMM,PMM Pink Medium Medium,,PK,AA,,,"'Pink medium medium' read as PM (pink, medium)"
+PURP,PURPLE,,PU,,,,
+R,Light Nats,,NA,A,,,meaning of 'Light Nats' to confirm
+RB,RAINBOW,,RB,,,,
+RBG,RAINBOW GOOD,,RB,GOOD,,,
+RCT,Reconstructed,,,,RECON,,
+REA,Real,,,,REAL,,
+REC,RECON,,,,RECON,,'RECON' is the same as 'Reconstructed'
+RED,Red,,RD,,,,
+RSN,Resin,,,,RESIN,,
+SA,Sand,,SD,,,,
+SAL,Salmon,,SL,,,,
+SI,SI Ballou,,WH,SI1,,,'SI Ballou' read as clarity SI1: product codes write it SI1; 'Ballou' to confirm
+SIL,Silver,,SI,,,,
+SP,Special,,,SPECIAL,,,
+SR,Star,,,,,STAR,
+SSP,South Seas Pearl,south-sea-pearl,,,,,
+ST,Stabilized,,,,STAB,,
+T1,TLB,,T1,,,,
+T2,TTLB,,T2,,,,
+T3,TLC,,T3,,,,
+TAH,Tahitian,tahiti-pearl,,,,,
+TL,Teal,,TL,,,,
+VIO,VIOLET,,VI,,,,
+W.SA,White Sapphire,,WH,,,,'White Sapphire' = a white sapphire
+W1,White1 = Si-P1,,WH,SIP1,,,
+W2,White2 = VS,,WH,VS,,,
+W3,White3 = VVS,,WH,VVS,,,
+WA,W.A,,WH,A,,,"'W.A' read as white, light"
+WH,White,,WH,,,,
+WHCE,White Cat Eye,,WH,,,CATS,
+WI1,White I1,,WH,I1,,,
+WI2,White I2,,WH,I2,,,
+WI3,White I3,,WH,I3,,,
+YL,YL Yellow Light,,YL,A,,,
+YLM,YLM YELLOW LIGHT MEDIUM,,YL,A,,,"'Yellow light medium' read as YL (yellow, light)"
+YM,YM Yellow Medium,,YL,AA,,,
+YS,YS Yellow Dark,,YL,AAA,,,

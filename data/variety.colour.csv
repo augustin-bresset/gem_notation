@@ -1,0 +1,45 @@
+id,name,kind,look
+BL,Blue,colour,2B
+PK,Pink,colour,4P
+YL,Yellow,colour,1Y
+OR,Orange,colour,2O
+GR,Green,colour,3G
+WH,White,colour,1W
+BK,Black,colour,1B
+GY,Grey,colour,4G
+GB,Grey-Blue,colour,1G
+BR,Brown,colour,5B
+RD,Red,colour,5R
+PU,Purple,colour,6P
+VI,Violet,colour,1V
+LV,Lavender,colour,1L
+LI,Lime,colour,2L
+GO,Gold,colour,2G
+SI,Silver,colour,4S
+CH,Champagne,colour,6C
+TL,Teal,colour,5T
+SL,Salmon,colour,3S
+SD,Sand,colour,2S
+CC,Charcoal,colour,5C
+AU,Aubergine,colour,2A
+PC,Peacock,colour,3P
+MU,Multi,colour,5M
+OL,Olive,colour,3O
+LE,Lemon,colour,4L
+SM,Smoky,colour,1X
+CG,Cognac,colour,
+FA,Fancy,trade,5M
+CE,Ceylon,trade,7C
+IC,Ice Ceylon,trade,1I
+OC,Open Ceylon,trade,1O
+KA,Kanchana,trade,
+AB,Australian Blue-Black,trade,4A
+PD,Padparadscha,trade,1P
+PA,Paraiba,trade,2P
+CR,Chrome,trade,3C
+MY,Malaya,trade,3M
+T1,TLB (top light brown),diamond,1T
+T2,TTLB (top top light brown),diamond,2T
+T3,TLC (top light cape),diamond,3T
+RB,Rainbow,trade,1R
+NA,Nats,unknown,1N

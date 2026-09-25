@@ -1,0 +1,396 @@
+legacy_type,legacy_shade,family,colour,grade,treatment,effect,status,note
+ABA,,abalone,,,,,ok,
+AGA,,agate,,,,,ok,
+AGA,BL,agate,BL,,,,merged,same variety as BAG
+AGA,GR,agate,GR,,,,ok,
+AGA,OR,agate,OR,,,,ok,
+AGA,RED,agate,RD,,,,ok,
+AGA,WH,agate,WH,,,,ok,
+AGA,YL,agate,YL,A,,,ok,
+AK1,,akoya-pearl,,,,,merged,"drilling ""1 hole"" is not a variety axis; same variety as AK2, PR1+AK, PRL+AK"
+AK1,BK,akoya-pearl,BK,,,,merged,"drilling ""1 hole"" is not a variety axis"
+AK1,WH,akoya-pearl,WH,,,,merged,"drilling ""1 hole"" is not a variety axis"
+AK2,,akoya-pearl,,,,,merged,"drilling ""2 holes"" is not a variety axis; same variety as AK1, PR1+AK, PRL+AK"
+ALX,,alexandrite,,,,,ok,
+AME,,amethyst,,,,,ok,
+AME,A,amethyst,,A,,,ok,
+AME,AA,amethyst,,AA,,,ok,
+AME,AAA,amethyst,,AAA,,,ok,
+AME,C,amethyst,,BAD,,,ok,
+AME,LAV,amethyst,LV,,,,ok,
+AME,ML,amethyst,,,,MILKY,ok,
+AMET,,ametrine,,,,,ok,
+AMZ,,amazonite,,,,,ok,
+AP,,apatite,,,,,ok,
+AP,GR,apatite,GR,,,,ok,
+AQ,,aquamarine,,,,,ok,
+AQ,A,aquamarine,,A,,,ok,
+AQ,AA,aquamarine,,AA,,,ok,
+AQ,AAA,aquamarine,,AAA,,,ok,
+AQ,AAAA,aquamarine,,AAAA,,,ok,
+AQ,C,aquamarine,,BAD,,,ok,
+AQ,ML,aquamarine,,,,MILKY,ok,
+AQ,SP,aquamarine,,SPECIAL,,,ok,
+AVT,,aventurine,,,,,ok,
+AVT,GR,aventurine,GR,,,,ok,
+BAG,,agate,BL,,,,merged,same variety as AGA+BL
+BDI,,diopside,BK,,,,merged,same variety as DIO+BK
+BDI,BST,diopside,BK,,,STAR,ok,
+BKTOU,C,tourmaline,BK,BAD,,,ok,
+BON,,bone,,,,,ok,
+BRL,,beryl,,,,,ok,
+BRL,SAL,beryl,SL,,,,ok,
+BRL,YL,beryl,YL,A,,,ok,
+BRL,YM,beryl,YL,AA,,,ok,
+BRZ,,bronzite,,,,,ok,
+BT,,topaz,BL,,,,merged,same variety as BT+GR
+BT,A,topaz,BL,A,,,ok,
+BT,AA,topaz,BL,AA,,,ok,
+BT,AAA,topaz,BL,AAA,,,ok,
+BT,AAAA,topaz,BL,AAAA,,,ok,
+BT,GR,topaz,BL,,,,conflict,"the type says Blue, the shade says Green: Blue kept; same variety as BT"
+BUT,,pearl,,,,,merged,"Button is a shape, not a variety; same variety as PR1, PR2, PRL"
+BZ,,zircon,BL,,,,ok,
+CAC,,calcite,,,,,ok,
+CAC,GR,calcite,GR,,,,ok,
+CAM,,came,,,,,ok,
+CAR,,carnelian,,,,,ok,
+CER,,ceramic,,,,,ok,
+CHA,,chalcedony,,,,,ok,
+CHA,A,chalcedony,,A,,,ok,
+CHA,BL,chalcedony,BL,,,,ok,
+CHA,C,chalcedony,,BAD,,,ok,
+CHA,GR,chalcedony,GR,,,,ok,
+CHA,LAV,chalcedony,LV,,,,ok,
+CHA,LI,chalcedony,LI,,,,ok,
+CHA,OR,chalcedony,OR,,,,ok,
+CHA,WH,chalcedony,WH,,,,ok,
+CHP,,quartz,CH,,,,ok,
+CHP,A,quartz,CH,A,,,ok,
+CHR,,chrysoberyl,,,,,ok,
+CHRP,,chrysoprase,,,,,ok,
+CIT,,citrine,,,,,ok,
+CIT,A,citrine,,A,,,ok,
+CIT,AA,citrine,,AA,,,ok,
+CIT,AAA,citrine,,AAA,,,ok,
+CIT,AAAA,citrine,,AAAA,,,ok,
+COG,,quartz,CG,,,,ok,
+COG,A,quartz,CG,A,,,ok,
+CORAL,,coral,,,,,ok,
+CORAL,OR,coral,OR,,,,ok,
+CORAL,PK,coral,PK,,,,ok,
+CORAL,RCT,coral,,,RECON,,merged,same variety as CORAL+REC
+CORAL,REC,coral,,,RECON,,merged,'RECON' is the same as 'Reconstructed'; same variety as CORAL+RCT
+CORAL,RED,coral,RD,,,,ok,
+CRY,,crystal,,,,,ok,
+CUB,,cubic-zirconia,,,,,ok,
+DIO,BK,diopside,BK,,,,merged,same variety as BDI
+DIO,GR,diopside,GR,,,,ok,
+DRE,,dragon-eye,,,,,ok,
+DTS,BK,diamond,BK,,,,ok,
+DTS,BL,diamond,BL,,,,ok,
+DTS,BR,diamond,BR,,,,ok,
+DTS,CH,diamond,CC,,,,ok,
+DTS,CHP,diamond,CH,,,,ok,
+DTS,CVD,diamond,WH,,LAB,,to-confirm,'SPECIAL DIA' (CVD) read as a lab-grown white diamond
+DTS,GR,diamond,GR,,,,ok,
+DTS,GY,diamond,GY,,,,ok,
+DTS,ICE,diamond,,,,ICE,ok,
+DTS,LBR,diamond,BR,A,,,ok,
+DTS,NAT,diamond,NA,,,,to-confirm,meaning of 'Nats' to confirm
+DTS,PK,diamond,PK,,,,ok,
+DTS,R,diamond,NA,A,,,to-confirm,meaning of 'Light Nats' to confirm
+DTS,RED,diamond,RD,,,,ok,
+DTS,SA,diamond,SD,,,,ok,
+DTS,SI,diamond,WH,SI1,,,to-confirm,'SI Ballou' read as clarity SI1: product codes write it SI1; 'Ballou' to confirm
+DTS,T1,diamond,T1,,,,ok,
+DTS,T2,diamond,T2,,,,ok,
+DTS,T3,diamond,T3,,,,ok,
+DTS,W1,diamond,WH,SIP1,,,ok,
+DTS,W2,diamond,WH,VS,,,ok,
+DTS,W3,diamond,WH,VVS,,,ok,
+DTS,WI1,diamond,WH,I1,,,ok,
+DTS,WI2,diamond,WH,I2,,,ok,
+DTS,WI3,diamond,WH,I3,,,ok,
+DTS,YM,diamond,YL,AA,,,ok,
+DYJ,,jade,,,DYED,,ok,
+DYJ,CH,jade,CC,,DYED,,ok,
+DYJ,GR,jade,GR,,DYED,,ok,
+DYJ,LAV,jade,LV,,DYED,,ok,
+DYJ,PK,jade,PK,,DYED,,ok,
+DYJ,RED,jade,RD,,DYED,,ok,
+DYJ,WH,jade,WH,,DYED,,ok,
+EAG,,eagle-eye,,,,,ok,
+EM,,emerald,,,,,ok,
+EM,2,emerald,,GOOD,,,ok,
+EM,3,emerald,,MEDIUM,,,to-confirm,"'3 Medium' read as quality Medium, like CS; same variety as EM+CS"
+EM,C,emerald,,BAD,,,ok,
+EM,CS,emerald,,MEDIUM,,,to-confirm,"CS read as quality Medium, between Good and Bad (legacy label: Medium / Austr. Medium); same variety as EM+3"
+EM,FF,emerald,,FIRE,,,ok,
+EM,M,emerald,,AA,,,ok,"'M medium' = medium colour, as in the notation"
+EM,REC,emerald,,,RECON,,merged,'RECON' is the same as 'Reconstructed'
+EM,SP,emerald,,SPECIAL,,,ok,
+FOP,,fire-opal,,,,,ok,
+FYTOU,,tourmaline,FA,,,,ok,
+GA,,garnet,,,,,ok,
+GA,A,garnet,,A,,,ok,
+GA,C,garnet,,BAD,,,ok,
+GA,MLY,garnet,MY,,,,ok,
+GQ,,quartz,GR,,,,ok,
+GQ,2,quartz,GR,GOOD,,,ok,
+GQ,A,quartz,GR,A,,,ok,
+GTOUR,,tourmaline,GR,,,,ok,
+GTOUR,A,tourmaline,GR,A,,,ok,
+GTOUR,C,tourmaline,GR,BAD,,,ok,
+GTOUR,CD,tourmaline,CR,AAAA,,,to-confirm,'Chrome deep' read as a darker chrome
+GTOUR,CDA,tourmaline,CR,AAA,,,ok,
+GTOUR,SP,tourmaline,GR,SPECIAL,,,ok,
+HMT,,hematite,,,,,ok,
+IOL,,iolite,,,,,ok,
+IOL,A,iolite,,A,,,ok,
+IOL,AA,iolite,,AA,,,ok,
+IOL,AAA,iolite,,AAA,,,ok,
+JAD,,jade,,,,,merged,same variety as JAD+JAD
+JAD,BK,jade,BK,,,,ok,
+JAD,JAD,jade,,,,,to-confirm,Jadeite is a jade mineral (Nephrite is the other one) - to decide; same variety as JAD
+JAD,WH,jade,WH,,,,ok,
+JET,,jet,,,,,ok,
+JSP,,jasper,,,,,ok,
+JSP,RED,jasper,RD,,,,ok,
+KUN,,kunzite,,,,,ok,
+KYA,,kyanite,,,,,ok,
+LAB,,labradorite,,,,,ok,
+LAP,,lapis,,,,,ok,
+LAP,AAA,lapis,,AAA,,,ok,
+LAP,C,lapis,,BAD,,,ok,
+LAP,GD,lapis,,GOOD,,,ok,same as '2 Good'
+LAP,REA,lapis,,,REAL,,ok,
+LAP,REC,lapis,,,RECON,,merged,'RECON' is the same as 'Reconstructed'
+LAP,RSN,lapis,,,RESIN,,ok,
+LAQ,,quartz,LE,,,,ok,
+LAQ,A,quartz,LE,A,,,ok,
+MAB,,mabe-pearl,,,,,ok,
+MAB,WA,mabe-pearl,WH,A,,,to-confirm,"'W.A' read as white, light"
+MGA,,mandarin-garnet,,,,,ok,
+MLK,,malachite,,,,,ok,
+MLK,GD,malachite,,GOOD,,,ok,same as '2 Good'
+MOI,,moissanite,,,,,ok,
+MON,,moonstone,,,,,ok,
+MON,BK,moonstone,BK,,,,ok,
+MON,BL,moonstone,BL,,,,ok,
+MON,BR,moonstone,BR,,,,ok,
+MON,GBL,moonstone,GB,,,,ok,
+MON,GR,moonstone,GR,,,,ok,
+MON,GY,moonstone,GY,,,,ok,
+MON,OR,moonstone,OR,,,,ok,
+MON,RB,moonstone,RB,,,,ok,
+MON,RBG,moonstone,RB,GOOD,,,ok,
+MON,WH,moonstone,WH,,,,ok,
+MON,WHCE,moonstone,WH,,,CATS,ok,
+MON,YM,moonstone,YL,AA,,,ok,
+MOP,,mother-of-pearl,,,,,ok,
+MOP,BK,mother-of-pearl,BK,,,,ok,
+MOP,GBL,mother-of-pearl,GB,,,,ok,
+MOP,GO,mother-of-pearl,GO,,,,ok,
+MOP,GY,mother-of-pearl,GY,,,,ok,
+MOP,PK,mother-of-pearl,PK,,,,ok,
+MOP,WH,mother-of-pearl,WH,,,,ok,
+MOR,,morganite,,,,,ok,
+MOR,AA,morganite,,AA,,,ok,
+MOR,AAA,morganite,,AAA,,,ok,
+MOR,PK,morganite,PK,,,,ok,
+NEP,,nephrite,,,,,ok,
+NEP,GR,nephrite,GR,,,,ok,
+OLQ,,quartz,OL,,,,ok,
+ONY,,onyx,,,,,merged,same variety as ONY+AK
+ONY,2,onyx,,GOOD,,,ok,
+ONY,A,onyx,,A,,,ok,
+ONY,AK,onyx,,,,,conflict,"shade 'Akoya' names a pearl, the type is Onyx; same variety as ONY"
+ONY,BK,onyx,BK,,,,ok,
+ONY,WH,onyx,WH,,,,ok,
+OP,A,opal,,A,,,ok,
+OP,AAA,opal,,AAA,,,ok,
+OP,AAAA,opal,,AAAA,,,ok,
+OP,BK,opal,BK,,,,ok,
+OP,C,opal,,BAD,,,ok,
+OP,OR,opal,OR,,,,ok,
+OP,PK,opal,PK,,,,ok,
+OP,WH,opal,WH,,,,ok,
+PAR,,tourmaline,PA,,,,merged,same variety as TOU+PARA
+PER,,peridot,,,,,ok,
+PER,A,peridot,,A,,,ok,
+PER,AAA,peridot,,AAA,,,ok,
+PER,SP,peridot,,SPECIAL,,,ok,
+POR,WH,porcelain,WH,,,,ok,
+PQA,,quartz,PK,,,,merged,same variety as PQA+PK
+PQA,2,quartz,PK,GOOD,,,ok,
+PQA,A,quartz,PK,A,,,ok,
+PQA,CDY,quartz,PK,,,CLOUDY,ok,
+PQA,ML,quartz,PK,,,MILKY,ok,
+PQA,PK,quartz,PK,,,,merged,same variety as PQA
+PQA,SR,quartz,PK,,,STAR,ok,
+PR1,,pearl,,,,,merged,"drilling ""1 hole"" is not a variety axis; same variety as BUT, PR2, PRL"
+PR1,AK,akoya-pearl,,,,,merged,"drilling ""1 hole"" is not a variety axis; same variety as AK1, AK2, PRL+AK"
+PR1,WH,pearl,WH,,,,merged,"drilling ""1 hole"" is not a variety axis; same variety as PR2+WH, PRL+WH"
+PR2,,pearl,,,,,merged,"drilling ""2 holes"" is not a variety axis; same variety as BUT, PR1, PRL"
+PR2,BK,pearl,BK,,,,merged,"drilling ""2 holes"" is not a variety axis; same variety as PRL+BK"
+PR2,GY,pearl,GY,,,,merged,"drilling ""2 holes"" is not a variety axis; same variety as PRL+GY"
+PR2,PK,pearl,PK,,,,merged,"drilling ""2 holes"" is not a variety axis; same variety as PRL+PK"
+PR2,PM,pearl,PK,AA,,,merged,"drilling ""2 holes"" is not a variety axis"
+PR2,WH,pearl,WH,,,,merged,"drilling ""2 holes"" is not a variety axis; same variety as PR1+WH, PRL+WH"
+PR2,YM,pearl,YL,AA,,,merged,"drilling ""2 holes"" is not a variety axis; same variety as PRL+YM"
+PREH,,prehnite,,,,,ok,
+PREH,A,prehnite,,A,,,ok,
+PREH,BL,prehnite,BL,,,,ok,
+PREH,GR,prehnite,GR,,,,ok,
+PREH,ML,prehnite,,,,MILKY,ok,
+PRL,,pearl,,,,,merged,"same variety as BUT, PR1, PR2"
+PRL,2,pearl,,GOOD,,,ok,
+PRL,AK,akoya-pearl,,,,,merged,"same variety as AK1, AK2, PR1+AK"
+PRL,BK,pearl,BK,,,,merged,same variety as PR2+BK
+PRL,BR,pearl,BR,,,,ok,
+PRL,CH,pearl,CC,,,,ok,
+PRL,CHP,pearl,CH,,,,ok,
+PRL,GY,pearl,GY,,,,merged,same variety as PR2+GY
+PRL,OR,pearl,OR,,,,ok,
+PRL,PK,pearl,PK,,,,merged,same variety as PR2+PK
+PRL,SSP,south-sea-pearl,,,,,ok,
+PRL,TAH,tahiti-pearl,,,,,ok,
+PRL,WH,pearl,WH,,,,merged,"same variety as PR1+WH, PR2+WH"
+PRL,YM,pearl,YL,AA,,,merged,same variety as PR2+YM
+PRL,YS,pearl,YL,AAA,,,ok,
+PTOUR,,tourmaline,PK,,,,ok,
+PTOUR,A,tourmaline,PK,A,,,ok,
+PTOUR,C,tourmaline,PK,BAD,,,ok,
+PTOUR,SP,tourmaline,PK,SPECIAL,,,ok,
+RCR,,rock-crystal,,,,,ok,
+RDC,,rhodochrosite,,,,,ok,
+RDF,,rose-de-france,,,,,ok,
+RHO,,rhodolite,,,,,ok,
+RHO,C,rhodolite,,BAD,,,ok,
+RU,,ruby,,,,,ok,
+RU,2,ruby,,GOOD,,,ok,
+RU,3,ruby,,MEDIUM,,,to-confirm,"'3 Medium' read as quality Medium, like CS; same variety as RU+CS"
+RU,C,ruby,,BAD,,,ok,
+RU,CS,ruby,,MEDIUM,,,to-confirm,"CS read as quality Medium, between Good and Bad (legacy label: Medium / Austr. Medium); same variety as RU+3"
+RU,M,ruby,,AA,,,ok,"'M medium' = medium colour, as in the notation"
+RU,SP,ruby,,SPECIAL,,,ok,
+RUBE,,rubellite,,,,,ok,
+RUBE,C,rubellite,,BAD,,,ok,
+RUBE,GO,rubellite,GO,,,,ok,
+RUT,,rutile-quartz,,,,,ok,
+RUT,BR,rutile-quartz,BR,,,,ok,
+RUT,GO,rutile-quartz,GO,,,,ok,
+RUT,SIL,rutile-quartz,SI,,,,ok,
+SA,,sapphire,,,,,ok,
+SA,2,sapphire,,GOOD,,,ok,
+SA,3,sapphire,,MEDIUM,,,to-confirm,"'3 Medium' read as quality Medium, like CS; same variety as SA+CS"
+SA,A,sapphire,,A,,,ok,
+SA,BB,sapphire,AB,,,,ok,
+SA,BK,sapphire,BK,,,,ok,
+SA,BLST,sapphire,BL,,,STAR,ok,
+SA,BST,sapphire,BK,,,STAR,ok,
+SA,CS,sapphire,,MEDIUM,,,to-confirm,"CS read as quality Medium, between Good and Bad (legacy label: Medium / Austr. Medium); same variety as SA+3"
+SA,DD,sapphire,KA,DD,,,merged,same variety as SK+DD
+SA,DF,sapphire,KA,DF,,,merged,same variety as SK+DF
+SA,FF,sapphire,,FIRE,,,ok,
+SA,GR,sapphire,GR,,,,ok,
+SA,IC,sapphire,IC,,,,ok,
+SA,LC,sapphire,CE,A,,,ok,
+SA,LCM,sapphire,CE,AA,,,to-confirm,"'Light Ceylon Medium' read as Ceylon, medium"
+SA,LD,sapphire,KA,LD,,,merged,same variety as SK+LD
+SA,LF,sapphire,KA,LF,,,merged,same variety as SK+LF
+SA,LPL,sapphire,PK,A,,,merged,"'Light PL' read as PL (pink, light); same variety as SA+PL, SA+PLM"
+SA,LVIO,sapphire,VI,A,,,ok,
+SA,MVIO,sapphire,VI,AA,,,ok,
+SA,OC,sapphire,OC,,,,ok,
+SA,OR,sapphire,OR,,,,ok,
+SA,ORL,sapphire,OR,A,,,ok,
+SA,PAD,sapphire,PD,,,,ok,
+SA,PF,sapphire,PK,AAA,,,ok,
+SA,PL,sapphire,PK,A,,,merged,"same variety as SA+LPL, SA+PLM"
+SA,PLM,sapphire,PK,A,,,merged,"'Light pink medium' read as PL (pink, light); same variety as SA+LPL, SA+PL"
+SA,PM,sapphire,PK,AA,,,merged,same variety as SA+PMM
+SA,PMM,sapphire,PK,AA,,,merged,"'Pink medium medium' read as PM (pink, medium); same variety as SA+PM"
+SA,SP,sapphire,,SPECIAL,,,ok,
+SA,TL,sapphire,TL,,,,ok,
+SA,VIO,sapphire,VI,,,,ok,
+SA,W.SA,sapphire,WH,,,,merged,'White Sapphire' = a white sapphire; same variety as SA+WH
+SA,WH,sapphire,WH,,,,merged,same variety as SA+W.SA
+SA,YL,sapphire,YL,A,,,merged,same variety as SA+YLM
+SA,YLM,sapphire,YL,A,,,merged,"'Yellow light medium' read as YL (yellow, light); same variety as SA+YL"
+SA,YM,sapphire,YL,AA,,,ok,
+SA,YS,sapphire,YL,AAA,,,ok,
+SB,,sea-bamboo,,,,,ok,
+SK,2,sapphire,KA,GOOD,,,ok,
+SK,BK,sapphire,KA,,,,conflict,"the type says Kanchana, the shade says Black: Kanchana kept"
+SK,DD,sapphire,KA,DD,,,merged,same variety as SA+DD
+SK,DF,sapphire,KA,DF,,,merged,same variety as SA+DF
+SK,FF,sapphire,KA,FIRE,,,ok,
+SK,LD,sapphire,KA,LD,,,merged,same variety as SA+LD
+SK,LF,sapphire,KA,LF,,,merged,same variety as SA+LF
+SMQ,,quartz,SM,,,,ok,
+SMQ,A,quartz,SM,A,,,ok,
+SMQ,AA,quartz,SM,AA,,,ok,
+SMQ,AAA,quartz,SM,AAA,,,ok,
+SPE,,spessartite,,,,,ok,
+SPE,BK,spessartite,BK,,,,ok,
+SPE,M,spessartite,,AA,,,ok,"'M medium' = medium colour, as in the notation"
+SPE,YS,spessartite,YL,AAA,,,ok,
+SPI,,spinel,,,,,ok,
+SPI,BK,spinel,BK,,,,ok,
+SPI,PK,spinel,PK,,,,ok,
+SPI,PURP,spinel,PU,,,,ok,
+SPI,RED,spinel,RD,,,,ok,
+STS,BK,stainless,BK,,,,ok,
+STS,BR,stainless,BR,,,,ok,
+STS,PK,stainless,PK,,,,ok,
+STS,WH,stainless,WH,,,,ok,
+STS,YM,stainless,YL,AA,,,ok,
+SYN,,synthetic,,,,,ok,
+SYN,PK,synthetic,PK,,,,ok,
+TAN,,tanzanite,,,,,ok,
+TAN,A,tanzanite,,A,,,ok,
+TAN,AA,tanzanite,,AA,,,ok,
+TAN,AAA,tanzanite,,AAA,,,ok,
+TAN,C,tanzanite,,BAD,,,ok,
+THP,A,tahiti-pearl,,A,,,ok,
+THP,AAA,tahiti-pearl,,AAA,,,ok,
+THP,AUB,tahiti-pearl,AU,,,,ok,
+THP,MUL,tahiti-pearl,MU,,,,ok,
+THP,PCK,tahiti-pearl,PC,,,,ok,
+THP,SIL,tahiti-pearl,SI,,,,ok,
+TIG,,tiger-eye,,,,,ok,
+TIG,C,tiger-eye,,BAD,,,ok,
+TOP,WH,topaz,WH,,,,merged,"same variety as WT, WT+OR, WT+WH"
+TOU,PARA,tourmaline,PA,,,,merged,same variety as PAR
+TSAV,,tsavorite,,,,,ok,
+TSAV,A,tsavorite,,A,,,ok,
+TSAV,AA,tsavorite,,AA,,,ok,
+TSAV,AAA,tsavorite,,AAA,,,ok,
+TSAV,AAAA,tsavorite,,AAAA,,,ok,
+TU,,turquoise,,,REAL,,ok,
+TU,BL,turquoise,BL,,REAL,,ok,
+TU,C,turquoise,,BAD,REAL,,ok,
+TU,GO,turquoise,GO,,REAL,,ok,
+TU,GR,turquoise,GR,,REAL,,ok,
+TU,GY,turquoise,GY,,REAL,,ok,
+TU,LBL,turquoise,BL,A,REAL,,ok,
+TU,ST,turquoise,,,STAB,,conflict,"the type says Real, the shade says Stabilized: Stabilized kept"
+TURQ,,turquoise,,,,,ok,
+TURQ,BL,turquoise,BL,,,,ok,
+TURQ,CS,turquoise,,MEDIUM,,,to-confirm,"CS read as quality Medium, between Good and Bad (legacy label: Medium / Austr. Medium)"
+TURQ,GR,turquoise,GR,,,,ok,
+TURQ,LBL,turquoise,BL,A,,,ok,
+TURQ,RCT,turquoise,,,RECON,,merged,same variety as TURQ+REC
+TURQ,REC,turquoise,,,RECON,,merged,'RECON' is the same as 'Reconstructed'; same variety as TURQ+RCT
+UV,,uvite,,,,,ok,
+WD,,wood,,,,,ok,
+WD,BK,wood,BK,,,,ok,
+WQA,,quartz,WH,,,,ok,
+WQA,A,quartz,WH,A,,,ok,
+WQA,ML,quartz,WH,,,MILKY,ok,
+WT,,topaz,WH,,,,merged,"same variety as TOP+WH, WT+OR, WT+WH"
+WT,OR,topaz,WH,,,,conflict,"the type says White, the shade says Orange: White kept; same variety as TOP+WH, WT, WT+WH"
+WT,WH,topaz,WH,,,,merged,"same variety as TOP+WH, WT, WT+OR"
+ZC,WH,zircon,WH,,,,ok,

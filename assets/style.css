@@ -6,6 +6,9 @@
   --accent: #111111;
   --bad: #b3261e;
   --muted: #6b6b68;
+  --warn: #9a6700;
+  --warn-bg: #fff4d6;
+  --bad-bg: #fde8e6;
 }
 * { box-sizing: border-box; }
 body {
@@ -30,7 +33,7 @@ header h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: 0.5px; }
 
 main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
 .row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
-.row .card { flex: 1; min-width: 340px; }
+.row .card { flex: 1; min-width: min(340px, 100%); }
 
 .card {
   background: var(--card);
@@ -44,7 +47,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
 .card h3 { margin: 20px 0 4px; font-size: 0.95rem; }
 
 .field { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; }
-.field select, .query-row input, #dict-filter {
+.field select, .query-row input, #dict-filter, #board-filter, #legacy-filter {
   display: block; width: 100%; margin-top: 3px;
   padding: 7px 9px; font: inherit;
   border: 1px solid var(--line); border-radius: 6px; background: #fff;
@@ -103,7 +106,7 @@ button:disabled { opacity: 0.4; cursor: default; }
   border: 1px solid var(--line); border-radius: 6px; margin-right: 4px;
 }
 .tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-#dict-filter { width: 220px; display: inline-block; margin-top: 0; }
+#dict-filter, #board-filter, #legacy-filter { width: 220px; display: inline-block; margin-top: 0; }
 .table-wrap { overflow-x: auto; max-height: 480px; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; }
 table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
 th, td { text-align: left; padding: 6px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -168,3 +171,61 @@ footer { text-align: center; padding: 18px; border-top: 1px solid var(--line); }
   font-size: 0.85rem; color: var(--muted); }
 .swatch { flex-shrink: 0; display: inline-block; width: 12px; height: 12px;
   border-radius: 50%; border: 1px solid rgba(0,0,0,0.18); }
+
+/* Stone varieties */
+.axes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0 10px; }
+.axis-tag { font-size: 0.7rem; font-weight: 400; color: var(--muted); border: 1px solid var(--line);
+  border-radius: 10px; padding: 0 6px; margin-left: 4px; white-space: nowrap; }
+.axis-tag.on { color: #fff; background: var(--accent); border-color: var(--accent); }
+.axes-grid .axis-tag { display: table; margin: 2px 0 0; }
+.variety-name { text-align: center; font-weight: 600; margin-bottom: 4px; }
+.product-head { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin: 8px 0; }
+.product-head label { display: flex; flex-direction: column; font-size: 0.8rem; font-weight: 600; }
+.product-head input { width: 110px; padding: 6px 8px; font: inherit; border: 1px solid var(--line);
+  border-radius: 6px; margin-top: 2px; text-transform: uppercase; }
+.product-line { flex-wrap: wrap; }
+.product-line .line-name { flex: 1 1 140px; min-width: 0; font-size: 0.8rem; color: var(--muted); }
+.product-line .mono { min-width: 48px; }
+.read-head { margin-top: 10px; font-size: 0.9rem; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px;
+  margin: 12px 0 16px; }
+.tile { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--paper); }
+.tile-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--muted); }
+.tile-value { font-size: 1.6rem; font-weight: 700; font-family: "SF Mono", Consolas, Menlo, monospace; }
+.tile-note { font-size: 0.78rem; color: var(--muted); }
+
+.table-wrap.tall { max-height: 620px; }
+.board td { vertical-align: middle; }
+.axis-col { text-align: center; }
+.axis-box { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; cursor: pointer;
+  padding: 3px 8px; border-radius: 6px; }
+.axis-box.on { background: var(--paper); }
+.axis-box input { margin: 0; width: 16px; height: 16px; cursor: pointer; }
+.sep { font-size: 0.7rem; color: var(--muted); }
+.axis-box.on .sep { color: var(--ink); font-weight: 600; }
+.share { display: flex; align-items: center; gap: 8px; min-width: 150px; }
+.share-bar { height: 8px; border-radius: 4px; background: var(--accent); flex: none; max-width: 90px; }
+.share span { font-size: 0.8rem; color: var(--muted); }
+.chips { white-space: normal; min-width: 220px; }
+.chip { display: inline-block; padding: 1px 6px; margin: 1px 2px; border: 1px solid var(--line);
+  border-radius: 5px; font-size: 0.78rem; background: #fff; }
+.chip.new { border-style: dashed; color: var(--warn); }
+
+.badge { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 0.72rem;
+  white-space: nowrap; border: 1px solid var(--line); color: var(--muted); }
+.badge.to-confirm { color: var(--warn); background: var(--warn-bg); border-color: #f0d58c; }
+.badge.conflict { color: var(--bad); background: var(--bad-bg); border-color: #f3b8b2; }
+td.note, td.wrap { white-space: normal; min-width: 220px; font-size: 0.82rem; color: var(--muted); }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.steps li { margin-bottom: 10px; }
+.product-head input[type=number] { width: 70px; text-transform: none; }
+
+/* How tones are written, for every code of the page */
+.tone-switch { display: inline-flex; align-items: center; gap: 4px; margin: 12px 0 0 6px;
+  font-size: 0.8rem; flex-wrap: wrap; }
+.tone-switch span { opacity: 0.8; margin-right: 4px; }
+.tone-switch button { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.5);
+  padding: 4px 10px; font-size: 0.8rem; font-family: "SF Mono", Consolas, Menlo, monospace; }
+.tone-switch button.active { background: #fff; color: var(--accent); border-color: #fff; }

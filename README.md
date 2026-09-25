@@ -1,18 +1,80 @@
-# Gemstone Notation
+# Stone Varieties
 
-A compact, separator-free notation for gemstones and for the colour code
-of a finished jewellery product — as a **static website**: no server, no
-database, nothing to install. Open `index.html` in a browser, or serve the
-folder anywhere (GitHub Pages works out of the box). The only third-party
-code is three.js, for the 3D page, vendored as one file.
+How to describe the stones of a jewellery production and write them in
+product codes — as a **static website**: no server, no database, nothing
+to install. Open `index.html` in a browser, or serve the folder anywhere
+(GitHub Pages works out of the box). The only third-party code is
+three.js, for the 3D views, vendored as one file.
 
-The site carries the full reference dictionaries — 112 stones with their
-categories and defaults, 7 grades, 91 hues, 178 shapes — and the grammar
-engine, so you can compose a code from a stone's components, read a code
-back into its components, build a product colour code, and browse the
-dictionaries.
+## The variety system
 
-## The token grammar: `PP[G][HH][SS]`
+1. **Every stone is described in full**: family (Sapphire, Topaz,
+   Diamond…), colour, grade, treatment and effect — plus shape and size for
+   the stock. Each family lists the values it accepts: Blue Topaz is Topaz
+   + Blue (so it keeps its grade), Reconstructed exists for turquoise, not
+   for sapphire.
+2. **The code tells the stone and its colour**, and little more: each
+   family writes its colour wherever several are in use, except its
+   **default colour** (a diamond is white unless told otherwise: `DTS` is
+   the white diamond, `DTSBR` the brown one); the grade only where today's
+   product codes already write it (sapphire `SAPL`, topaz `BTA`, citrine
+   `CITA`, ruby and emerald `RU2`, `EM2`). Tones can be written
+   `A · AA · AAA · AAAA` as in the stock codes, `1A · 2A · 3A · 4A`, or
+   `A · 2A · 3A · 4A` as product codes mostly write them today; a switch on
+   the page picks the writing, and a code reads in any of them.
+3. **Every variety keeps today's code** — the stock code, type then shade,
+   that everyone already reads — without what the family does not write
+   (Peridot is `PER` whatever its grade). Stones that were the same thing
+   under two codes take the most used one. A combination never seen before
+   is written with today's pieces (`TOPPK`, a pink topaz) and flagged, or
+   marked to be named when no piece exists.
+4. **A product code** is the model, its varieties — center stone first,
+   then heaviest single stone — and the metal: `R1048-SAPM+DTS/W`.
+5. **A variant index settles the rest**: products of one model with the
+   same codes but other stones (another grade, size or count) are numbered
+   in creation order, the first without index — `R1048-SAPM+DTS/W-2`; the
+   same stones in another metal keep their number. Measured: 8 % of
+   products carry an index, 99.5 % stay at 3 or less.
+
+The page lets you describe a stone and get its variety, build and read
+product codes, tick what each family writes and see the effect on the
+number of varieties, the code length and the variant indexes, and check
+how each of today's stone codes (type + shade) reads into the new
+description.
+
+### Data
+
+| File | Kind | Content |
+|------|------|---------|
+| `data/variety.family.csv` | curated | families, today's types they absorb, the axes their code writes, their default colour |
+| `data/variety.colour.csv`, `.grade.csv`, `.treatment.csv`, `.effect.csv` | curated | the value dictionaries (grades carry their scale: tone, quality, clarity, Kanchana) |
+| `data/variety.legacy_type.csv`, `.legacy_shade.csv` | curated | what each of today's types and shades says (Blue Topaz: Topaz + Blue; PL: Pink + Light) — the vocabulary codes are written with |
+| `data/variety.legacy.csv` | curated | every type + shade in use today → family, colour, grade, treatment, effect, with a status (ok, merged, to confirm, conflict) — a draft to validate |
+| `data/variety.usage.csv` | generated | stones and product lines per type + shade (aggregates) |
+| `data/variety.metrics.json` | generated | variant indexes for the proposal and for every alternative choice of each family (aggregates) |
+| `data/variety.written.csv` | generated | how today's product codes write each type + shade (aggregates) |
+
+The generated files come from a production export kept out of the
+repository (the SQL is in `tools/usage.py`):
+
+```
+python3 tools/usage.py EXPORT_DIR   # add --suggest to see what each axis separates
+python3 tools/build_data.py
+node --test tests/
+```
+
+`assets/variety.js` is the variety engine (browser + node): varieties,
+their codes, product codes, reading, variant index figures.
+
+## The token notation (earlier design)
+
+The site grew out of a compact, separator-free notation for gemstones and
+for the colour code of a finished jewellery product. Its dictionaries —
+112 stones with their categories and defaults, 7 grades, 91 hues, 178
+shapes — and its grammar engine are still here: the 3D page and the stone
+look use them, and the design study (`study.html`) documents the choice.
+
+### The token grammar: `PP[G][HH][SS]`
 
 | Block | Width | Characters | Meaning |
 |-------|-------|------------|---------|
@@ -48,10 +110,12 @@ by token.
 
 ```
 index.html                 the site (open it, that's all)
-study.html                 the design study
+study.html                 the design study of the token notation
 shape3d.html               the 3D shapes page
-assets/grammar.js          the grammar engine (browser + node, no deps)
-assets/data.js             the dictionaries (generated - do not edit)
+assets/variety.js          the variety engine (browser + node)
+assets/variety-data.js     the variety data (generated - do not edit)
+assets/grammar.js          the token grammar engine (browser + node, no deps)
+assets/data.js             the notation dictionaries (generated - do not edit)
 assets/app.js              page behaviour
 assets/combo.js            the searchable dropdown shared by the pages
 assets/shape3d.js          the 3D shape generator (browser + node, no deps)
@@ -62,7 +126,8 @@ assets/stone-look.js       colour and material of each stone and hue
 assets/gem-optics.js       light ray traced inside transparent stones
 assets/vendor/three.js     three.js + addons as one script (generated)
 data/*.csv                 source of truth for the dictionaries
-tools/build_data.py        regenerates assets/data.js from data/*.csv
+tools/build_data.py        regenerates assets/data.js and variety-data.js
+tools/usage.py             measures the variety system on a production export
 tools/three/               rebuilds assets/vendor/three.js
 tests/*.test.js            node --test suites
 ```
@@ -177,3 +242,8 @@ The same notation ships as a standalone Odoo 18 module (`gem_notation`)
 carrying these exact dictionaries; this site is the zero-install way to
 consult and use the notation. The CSVs are interchangeable between the
 two.
+
+The variety system is not in the Odoo module yet: this site is where it is
+presented and agreed on first. Its correspondence with today's stone codes
+(`data/variety.legacy.csv`) is meant to become, once validated, the
+migration table of the PDP stones.

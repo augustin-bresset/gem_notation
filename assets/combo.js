@@ -1,6 +1,7 @@
 // Gemstone Notation - searchable combo, shared by the pages.
 // A text input with a ranked dropdown (GemSearch): type a name or a
 // code, pick with the mouse or Up/Down + Enter; empty input clears.
+// A row without a code shows its name alone.
 (function (root) {
   'use strict';
   const S = root.GemSearch;
@@ -14,13 +15,13 @@
     let highlighted = 0;
 
     const display = () => {
-      input.value = current ? `${current.code} — ${current.name}` : '';
+      input.value = !current ? '' : current.code ? `${current.code} — ${current.name}` : current.name;
     };
     const close = () => { list.hidden = true; };
 
     const itemHtml = (row, index) =>
       `<div class="combo-item${row === current ? ' current' : ''}" data-i="${index}">`
-      + `<span class="mono strong">${row.code}</span> ${row.name}`
+      + (row.code ? `<span class="mono strong">${row.code}</span> ` : '') + row.name
       + (detailOf && detailOf(row)
           ? ` <span class="muted">${detailOf(row)}</span>` : '')
       + '</div>';
@@ -104,6 +105,11 @@
       get: () => current,
       // show a row without firing onChange
       set: (row) => { current = row || null; display(); },
+      // offer other rows (the current one is kept only if still offered)
+      setRows: (next) => {
+        rows = next;
+        if (current && !rows.includes(current)) { current = null; display(); }
+      },
     };
   }
 

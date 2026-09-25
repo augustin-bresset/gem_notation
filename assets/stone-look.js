@@ -240,11 +240,14 @@
   // { family, color, ior, fire, haze, iridescent, label, texture,
   //   phenomenon, glint, translucency, roughness, seed }, or null when
   // the stone has nothing to say.
-  function lookFor(stone, grade, hue, dicts) {
+  function lookFor(stone, grade, hue, dicts, extraHues) {
     const base = stone && STONES[stone.code];
     if (!base) return null;
     const hues = Object.fromEntries((dicts.hues || []).map((r) => [r.code, r]));
-    const chain = [[hue, 'chosen'], [hues[stone.implied_hue], 'implied']];
+    // extra hues (an effect such as Star or Milky) add their haze and
+    // phenomenon; the colour comes from the first hue that has one
+    const chain = [[hue, 'chosen'], ...(extraHues || []).filter(Boolean).map((h) => [h, 'chosen']),
+                   [hues[stone.implied_hue], 'implied']];
     let color = null;
     let label = '';
     let haze = 0;
